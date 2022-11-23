@@ -1,1 +1,0 @@
-{"version":3,"file":"cancel-appointment.js","sourceRoot":"","sources":["../../../../src/api/web/validation/cancel-appointment.ts"],"names":[],"mappings":";;;;;;AAAA,4CAAsB;AAET,QAAA,uBAAuB,GAAG,aAAG,CAAC,MAAM,CAAC;IAC9C,QAAQ,EAAE,aAAG,CAAC,MAAM,EAAE,CAAC,QAAQ,EAAE;IACjC,aAAa,EAAE,aAAG,CAAC,MAAM,EAAE,CAAC,QAAQ,EAAE;IACtC,QAAQ,EAAE,aAAG,CAAC,MAAM,EAAE;CACzB,CAAC,CAAA"}
