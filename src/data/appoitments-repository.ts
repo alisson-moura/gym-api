@@ -1,0 +1,11 @@
+import { Appointment } from "../models/appointment";
+import { CreateAppointmentDTO } from "../modules/appointments/dtos/create-appointment-dto";
+
+export interface AppoitmentRepository {
+    findById: (id: number) => Promise<Appointment | undefined>
+    create: (data: CreateAppointmentDTO) => Promise<Appointment>
+    cancel: (data: { id: number, comments?: string }) => Promise<Appointment>
+    confirm: (data: { id: number }) => Promise<Appointment>
+    findByClientId: (id: number) => Promise<Appointment[]>
+    findAll: (date: Date) => Promise<Appointment[]>
+}
