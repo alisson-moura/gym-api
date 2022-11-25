@@ -43,8 +43,14 @@ export class NewAppointment implements UseCase<CreateAppointmentDTO, Response> {
             const index = appLimit.findIndex(al => al.hour == hour)
             appLimit[index].amount += 1
         })
+
         const availableHours = appLimit
-            .filter(al => al.amount < schedule.limit && al.hour > new Date().getHours())
+            .filter(al => {
+                const availableSameDay = this.dateProvider.sameDay(day, appointmentDay) && al.amount < schedule.limit && al.hour > appointmentDay.getHours()
+                const availableOnFutureDay = al.amount < schedule.limit
+
+                return availableSameDay || availableOnFutureDay
+            })
             .map(al => al.hour)
         if (!availableHours.includes(hour)) {
             return new AppError('Hour not available for appointment')

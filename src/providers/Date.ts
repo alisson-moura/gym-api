@@ -11,4 +11,10 @@ export interface DateProvider {
     * @return  Number: he the number of hours
     */
     differenceInHours: (date: Date, dateToCompare: Date) => number
+
+    /**
+  * @description Are the given dates in the same day (and year and month)?
+  * @return  Boolean: the dates are in the same day (and year and month)
+  */
+    sameDay: (date: Date, dateToCompare: Date) => Boolean
 }
