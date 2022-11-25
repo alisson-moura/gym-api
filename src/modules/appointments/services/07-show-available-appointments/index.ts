@@ -42,9 +42,6 @@ export class ShowAvailableAppointments implements UseCase<Request, Response> {
             })
             .map(al => al.hour)
 
-        console.log(availableHours)
-
-
         return availableHours
     }
 }

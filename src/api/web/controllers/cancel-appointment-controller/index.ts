@@ -9,7 +9,6 @@ import { BaseController } from "../base-controller";
 class CancelAppointmentController extends BaseController {
     protected async executeImpl(req: Request, res: Response): Promise<any> {
         const data = req.body
-        console.log(data)
         const service = new CancelAppointment(
             new PrismaAppointmentRepository(),
             new DateFnsProvider()

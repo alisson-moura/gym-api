@@ -1,21 +1,26 @@
 import { prisma } from '.';
 import { ClientRepository } from '../../data/client-repository'
 import { Client } from '../../models/client';
+import { AcceptTermDTO } from '../../modules/clients/dtos/accept-term-dto';
 import { CreateAccountDTO } from '../../modules/clients/dtos/create-client-dto';
 import { UpdateAccountDTO } from '../../modules/clients/dtos/update-account-dto';
 
-
 export class PrismaClientRepository implements ClientRepository {
     async create(data: CreateAccountDTO): Promise<void> {
-        await prisma.client.create({
-            data: {
-                email: data.email,
-                gender: data.gender,
-                name: data.name,
-                password: data.password,
-                badge: data.badge
-            }
-        })
+        const lastTerm = await prisma.term.findFirst({ where: { isActive: true } })
+        if (lastTerm) {
+            await prisma.client.create({
+                data: {
+                    email: data.email,
+                    gender: data.gender,
+                    name: data.name,
+                    password: data.password,
+                    badge: data.badge,
+                    termId: lastTerm.id
+                }
+            })
+        }
+        throw new Error('No term available')
     }
     async findByEmail(email: string): Promise<Client | undefined> {
         const client = await prisma.client.findUnique({
@@ -50,7 +55,7 @@ export class PrismaClientRepository implements ClientRepository {
         }
         return undefined
     }
-    async update (data: UpdateAccountDTO): Promise<Client> {
+    async update(data: UpdateAccountDTO): Promise<Client> {
         const updateUser = await prisma.client.update({
             where: {
                 id: data.id
@@ -62,9 +67,19 @@ export class PrismaClientRepository implements ClientRepository {
                 email: data.email,
                 gender: data.gender,
                 name: data.name,
-                photo: data.photo   
+                photo: data.photo
             }
         })
         return updateUser
+    }
+    async acceptTerm(data: AcceptTermDTO): Promise<void> {
+        await prisma.client.update({
+            where: {
+                id: data.clientId
+            },
+            data: {
+                termStatus: "accepted"
+            }
+        })
     }
 }

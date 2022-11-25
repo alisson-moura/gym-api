@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import acceptTermController from './controllers/accept-term-controller'
 import cancelAppointmentController from './controllers/cancel-appointment-controller'
 import confirmAppointmentController from './controllers/confirm-appointment-controller'
 import createAccountController from './controllers/create-account-controller'
@@ -7,6 +8,7 @@ import newAppointmentController from './controllers/new-appointment-controller'
 import showAvailablesAppointmentsController from './controllers/show-availables-appointments-controller'
 import showClientAppointmentsController from './controllers/show-client-appointments-controller'
 import showProfileController from './controllers/show-profile-controller'
+import showTermController from './controllers/show-term-controller'
 import updateProfileController from './controllers/update-profile-controller'
 import auth from './middlewares/auth'
 import { validator } from './middlewares/validator'
@@ -16,7 +18,7 @@ const router = Router()
 router.post('/signup',
     validator('CreateAccountSchema'),
     async (req, res) => await createAccountController.execute(req, res))
-    
+
 router.post('/signin',
     validator('CreateSessionSchema'),
     async (req, res) => await createSessionController.execute(req, res))
@@ -31,6 +33,14 @@ router.get('/profile',
 router.put('/profile',
     validator('UpdateAccountSchema'),
     async (req, res) => await updateProfileController.execute(req, res))
+
+// Term routes
+router.get('/term/:id',
+    async (req, res) => await showTermController.execute(req, res))
+
+router.put('/accept/:termId',
+    async (req, res) => acceptTermController.execute(req, res))
+
 
 // Appointments routes
 router.get('/appointments',

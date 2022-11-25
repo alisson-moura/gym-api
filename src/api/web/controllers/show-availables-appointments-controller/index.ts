@@ -8,7 +8,6 @@ import { BaseController } from "../base-controller";
 class ShowAvailableAppointmentsController extends BaseController {
     protected async executeImpl(req: Request, res: Response): Promise<any> {
         const data = req.query as any
-        console.log(data)
         const service = new ShowAvailableAppointments(new PrismaAppointmentRepository(), new DateFnsProvider())
         const result = await service.execute(data)
         if (result instanceof AppError)
