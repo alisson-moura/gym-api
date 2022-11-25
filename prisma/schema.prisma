@@ -10,18 +10,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Term {
+  id       Int      @id @default(autoincrement())
+  title    String   @db.Text()
+  text     String   @db.Text()
+  isActive Boolean  @default(true)
+  Client   Client[]
+}
+
 model Client {
   id          Int           @id @default(autoincrement())
   name        String        @db.VarChar(255)
   email       String        @unique @db.VarChar(255)
   password    String        @db.VarChar(255)
   gender      String        @db.VarChar(1)
-  status      String        @default("pending")
+  status      String        @default("active")
+  termId      Int?
+  termStatus  String        @default("pending")
   badge       Int?          @db.Integer
   photo       String?       @db.VarChar(255)
   comments    String?       @db.VarChar(255)
   birthDate   DateTime?     @db.Timestamp(6)
   Appointment Appointment[]
+  term        Term?          @relation(fields: [termId], references: [id])
 }
 
 model Appointment {

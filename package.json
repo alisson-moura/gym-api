@@ -11,6 +11,9 @@
     "test:ui": "vitest -c ./src/vite.config.ts --ui",
     "test:coverage": "vitest -c ./src/vite.config.ts  --coverage"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seeds/seed.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
