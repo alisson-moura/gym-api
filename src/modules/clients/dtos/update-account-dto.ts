@@ -7,4 +7,7 @@ export interface UpdateAccountDTO {
     photo?: string
     birthDate?:string
     comments?: string
+    height?: number
+    weight?: number
+    company?: string
 }

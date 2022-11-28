@@ -38,6 +38,9 @@ model Client {
   photo       String?       @db.VarChar(255)
   comments    String?       @db.VarChar(255)
   birthDate   DateTime?     @db.Timestamp(6)
+  height      Int?
+  weight      Float?
+  company     String?
   Appointment Appointment[]
   term        Term?         @relation(fields: [termId], references: [id])
 }

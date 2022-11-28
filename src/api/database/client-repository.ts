@@ -68,7 +68,10 @@ export class PrismaClientRepository implements ClientRepository {
                 email: data.email,
                 gender: data.gender,
                 name: data.name,
-                photo: data.photo
+                photo: data.photo,
+                height: data.height,
+                weight: data.weight,
+                company: data.company
             }
         })
         return updateUser
