@@ -18,7 +18,8 @@ describe('UseCase: Create Account', () => {
             email: 'jonh@mail.com',
             password: '123456',
             confirmPassword: '123456',
-            gender: 'm'
+            gender: 'm',
+            company: 'funfarme'
         }
     })
     test('Deve retornar um erro caso o valor de um ou mais desses campos [name, email, password, confirmPassword, gender] sejam nulos',
