@@ -19,6 +19,7 @@ export class PrismaClientRepository implements ClientRepository {
                     termId: lastTerm.id
                 }
             })
+            return
         }
         throw new Error('No term available')
     }
