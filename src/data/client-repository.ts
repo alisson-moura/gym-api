@@ -4,6 +4,7 @@ import { CreateAccountDTO } from "../modules/clients/dtos/create-client-dto";
 import { UpdateAccountDTO } from "../modules/clients/dtos/update-account-dto";
 
 export interface ClientRepository {
+    all:() => Promise<Client[]>
     findByEmail: (email: string) => Promise<Client | undefined>
     findByBadge: (badge: number) => Promise<Client | undefined>
     findById: (data: { id: number, password: boolean }) => Promise<Client | undefined>

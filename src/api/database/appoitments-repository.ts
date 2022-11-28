@@ -46,14 +46,15 @@ export class PrismaAppointmentRepository implements AppoitmentRepository {
         return appointment
     }
     async findAll(date: Date): Promise<Appointment[]> {
-        const startDay = date
+        const startDay = new Date(date)
         startDay.setHours(0, 0, 0, 0)
-        const endDay = date
+        const endDay = new Date(date)
         endDay.setHours(23, 59, 59, 0)
         const appointments = await prisma.appointment.findMany({
             where: {
                 date: {
-                    gte: startDay, lt: endDay
+                    gte: startDay,
+                    lt: endDay
                 }
             }
         })

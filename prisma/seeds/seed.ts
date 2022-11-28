@@ -37,8 +37,8 @@ async function main() {
             Tempo de treino: máximo de 1h/dia;
             Capacidade máxima por horário: 20 alunos/hora;
             Vestimentas: Orienta-se roupas confortáveis de ginástica sem decotes excessivos;
-            Proibido: sapato social, chinelos, sandálias, sapatilha, descalç, saia, vestido, short jeans ou calça jeans;
-            Acompanhantes: Não é permitido a entrada de acompanhantes (familiares, amigos ou personal trainer);`
+            Proibido: sapato social, chinelos, sandálias, sapatilha, descalço, saia, vestido, short jeans ou calça jeans;
+            Acompanhantes: Não é permitido a entrada de acompanhantes (familiares, amigos ou personal trainer)`
         }
     })
 }

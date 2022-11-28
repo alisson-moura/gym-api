@@ -27,10 +27,12 @@ export class ShowAvailableAppointments implements UseCase<Request, Response> {
         const schedule = new Schedule()
         const appoitments = await this.appointmentRepository.findAll(date)
         const appLimit = schedule.hours.map(h => ({ hour: h, amount: 0 }))
+
         appoitments.forEach(app => {
-            const hour = app.date.getHours()
+            const hour = app.hour
             const index = appLimit.findIndex(al => al.hour == hour)
-            appLimit[index].amount += 1
+            if (index !== -1)
+                appLimit[index].amount += 1
         })
 
         /*TOD0: Refatorar para utilizar injeção de dependência */

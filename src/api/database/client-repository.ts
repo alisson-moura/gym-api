@@ -6,6 +6,10 @@ import { CreateAccountDTO } from '../../modules/clients/dtos/create-client-dto';
 import { UpdateAccountDTO } from '../../modules/clients/dtos/update-account-dto';
 
 export class PrismaClientRepository implements ClientRepository {
+    async all(): Promise<Client[]> {
+        const clients = await prisma.client.findMany()
+        return clients
+    }
     async create(data: CreateAccountDTO): Promise<void> {
         const lastTerm = await prisma.term.findFirst({ where: { isActive: true } })
         if (lastTerm) {
