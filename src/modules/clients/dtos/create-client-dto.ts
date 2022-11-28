@@ -5,4 +5,5 @@ export interface CreateAccountDTO {
     confirmPassword: string
     badge?: number
     gender: string
+    company: string
 }

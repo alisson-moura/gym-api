@@ -16,7 +16,8 @@ export class PrismaClientRepository implements ClientRepository {
                     name: data.name,
                     password: data.password,
                     badge: data.badge,
-                    termId: lastTerm.id
+                    termId: lastTerm.id,
+                    company: data.company
                 }
             })
             return
