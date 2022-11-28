@@ -18,6 +18,13 @@ model Term {
   Client   Client[]
 }
 
+model Guidelines {
+  id       Int     @id @default(autoincrement())
+  title    String  @db.Text()
+  text     String  @db.Text()
+  isActive Boolean @default(true)
+}
+
 model Client {
   id          Int           @id @default(autoincrement())
   name        String        @db.VarChar(255)
@@ -32,7 +39,7 @@ model Client {
   comments    String?       @db.VarChar(255)
   birthDate   DateTime?     @db.Timestamp(6)
   Appointment Appointment[]
-  term        Term?          @relation(fields: [termId], references: [id])
+  term        Term?         @relation(fields: [termId], references: [id])
 }
 
 model Appointment {

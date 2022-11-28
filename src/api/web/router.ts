@@ -5,6 +5,7 @@ import confirmAppointmentController from './controllers/confirm-appointment-cont
 import createAccountController from './controllers/create-account-controller'
 import createSessionController from './controllers/create-session-controller'
 import newAppointmentController from './controllers/new-appointment-controller'
+import showAvailableGuideline from './controllers/show-available-guideline'
 import showAvailablesAppointmentsController from './controllers/show-availables-appointments-controller'
 import showClientAppointmentsController from './controllers/show-client-appointments-controller'
 import showProfileController from './controllers/show-profile-controller'
@@ -40,6 +41,10 @@ router.get('/term/:id',
 
 router.put('/accept/:termId',
     async (req, res) => acceptTermController.execute(req, res))
+
+// Get GuideLine
+router.get('/guide',
+    async (req, res) => showAvailableGuideline.execute(req, res))
 
 
 // Appointments routes
