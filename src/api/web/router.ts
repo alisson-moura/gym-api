@@ -24,46 +24,44 @@ router.post('/signin',
     validator('CreateSessionSchema'),
     async (req, res) => await createSessionController.execute(req, res))
 
-// enable auth middleware
-router.use(auth)
 
 // Profile routes
-router.get('/profile',
+router.get('/profile', auth,
     async (req, res) => await showProfileController.execute(req, res))
 
-router.put('/profile',
+router.put('/profile', auth,
     validator('UpdateAccountSchema'),
     async (req, res) => await updateProfileController.execute(req, res))
 
 // Term routes
-router.get('/term/:id',
+router.get('/term/:id', auth,
     async (req, res) => await showTermController.execute(req, res))
 
-router.put('/accept/:termId',
+router.put('/accept/:termId',auth,
     async (req, res) => acceptTermController.execute(req, res))
 
 // Get GuideLine
-router.get('/guide',
+router.get('/guide', auth,
     async (req, res) => showAvailableGuideline.execute(req, res))
 
 
 // Appointments routes
-router.get('/appointments',
+router.get('/appointments', auth,
     async (req, res) => await showClientAppointmentsController.execute(req, res))
 
-router.get('/available-appointments',
+router.get('/available-appointments', auth,
     validator('DateSchema'),
     async (req, res) => await showAvailablesAppointmentsController.execute(req, res))
 
-router.post('/new-appointment',
+router.post('/new-appointment', auth,
     validator('NewAppointmentSchema'),
     async (req, res) => await newAppointmentController.execute(req, res))
 
-router.put('/cancel-appointment',
+router.put('/cancel-appointment', auth,
     validator('CancelAppointmentSchema'),
     async (req, res) => await cancelAppointmentController.execute(req, res))
 
-router.put('/confirm-appointment',
+router.put('/confirm-appointment', auth,
     validator('ConfirmAppointmentSchema'),
     async (req, res) => await confirmAppointmentController.execute(req, res))
 

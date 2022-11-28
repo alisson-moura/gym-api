@@ -5,6 +5,7 @@ import helmet from 'helmet'
 import morgan from 'morgan'
 
 import router from './router'
+import adminRouter from './admin-router'
 
 function startWebServer() {
     const app = express()
@@ -18,8 +19,9 @@ function startWebServer() {
     /*TODO AJUSTAR LOG */
     app.use(morgan('tiny'))
 
+    app.use('/', router)
+    app.use('/admin', adminRouter)
 
-    app.use(router)
     app.listen(process.env.PORT, () => console.log('\x1b[33m%s\x1b[0m', `Server :: Running @ 'http://localhost:${process.env.PORT}'`))
     app.on('error', (error) => console.log('Error: ', error))
 }

@@ -22,3 +22,4 @@ export default function auth(req: Request, res: Response, next: NextFunction) {
         return res.sendStatus(401)
     }
 }
+

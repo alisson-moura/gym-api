@@ -25,6 +25,13 @@ model Guidelines {
   isActive Boolean @default(true)
 }
 
+model Admin {
+  id       Int     @id @default(autoincrement())
+  login    String  @db.VarChar(255)
+  password String  @db.VarChar(255)
+  isAdmin  Boolean @default(true)
+}
+
 model Client {
   id          Int           @id @default(autoincrement())
   name        String        @db.VarChar(255)
