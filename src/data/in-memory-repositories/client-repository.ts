@@ -5,6 +5,7 @@ import { UpdateAccountDTO } from "../../modules/clients/dtos/update-account-dto"
 import { ClientRepository } from "../client-repository";
 
 export class InMemoryClientRepository implements ClientRepository {
+    all: () => Promise<Client[]>;
     acceptTerm: (data: AcceptTermDTO) => Promise<void>;
     update: (data: UpdateAccountDTO) => Promise<Client>;
     findById: (data: { id: number; password: boolean; }) => Promise<Client | undefined>;
