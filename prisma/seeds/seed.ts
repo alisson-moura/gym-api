@@ -1,12 +1,19 @@
 import { PrismaClient } from '@prisma/client'
+import { EncrypterProvider } from '../../src/api/providers/EncrypterProvider'
 
 const prisma = new PrismaClient()
 
 async function main() {
+    const encrypter = new EncrypterProvider()
+    const defaultAdminPassword = 'admin@123'
+
+    await prisma.admin.deleteMany() // clear prev userAdmin
+    const hash = encrypter.encrypt(defaultAdminPassword)
+    
     await prisma.admin.create({
         data: {
             login: 'admin',
-            password: '123456'
+            password: hash
         }
     })
     await prisma.term.updateMany({

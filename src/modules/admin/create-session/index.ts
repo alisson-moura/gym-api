@@ -1,6 +1,7 @@
 import { AdminRepository } from "../../../data/admin-repository"
 import { Admin } from "../../../models/Admin"
 import { AppError } from "../../../providers/AppError"
+import { Encrypter } from "../../../providers/Encrypter"
 import { TokenProvider } from "../../../providers/Token"
 import { UseCase } from "../../../providers/UseCase"
 import { CreateSessionDTO } from "./dto"
@@ -11,7 +12,8 @@ export class CreateSession implements UseCase<CreateSessionDTO, Response> {
 
     constructor(
         private adminRepository: AdminRepository,
-        private tokenProvider: TokenProvider
+        private tokenProvider: TokenProvider,
+        private encrypter: Encrypter
     ) { }
 
     async execute(request: CreateSessionDTO): Promise<Response> {
@@ -21,8 +23,8 @@ export class CreateSession implements UseCase<CreateSessionDTO, Response> {
         if (admin === null) {
             return genericError
         }
-
-        if (admin.password !== request.password) {
+        const passwordMatch = this.encrypter.compare(request.password, admin.password!)
+        if (passwordMatch === false) {
             return genericError
         }
 
