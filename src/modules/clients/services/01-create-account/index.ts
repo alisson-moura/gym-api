@@ -1,5 +1,6 @@
 import { ClientRepository } from "../../../../data/client-repository";
 import { AppError } from "../../../../providers/AppError";
+import { Encrypter } from "../../../../providers/Encrypter";
 import { UseCase } from "../../../../providers/UseCase";
 import { Validator } from "../../../../providers/Validator";
 import { CreateAccountDTO } from "../../dtos/create-client-dto";
@@ -10,7 +11,8 @@ type Response = AppError | void
 export class CreateAccount implements UseCase<CreateAccountDTO, Response> {
 
     constructor(
-        private clientRepository: ClientRepository
+        private clientRepository: ClientRepository,
+        private encrypter: Encrypter
     ) { }
 
     async execute(request: CreateAccountDTO): Promise<Response> {
@@ -42,7 +44,9 @@ export class CreateAccount implements UseCase<CreateAccountDTO, Response> {
                 return new AppError('Badge in use by another user')
             }
         }
-       
+
+        request.password = this.encrypter.encrypt(request.password)
+
         await this.clientRepository.create(request)
     }
 }
