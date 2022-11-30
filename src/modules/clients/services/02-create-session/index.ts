@@ -1,6 +1,7 @@
 import { ClientRepository } from "../../../../data/client-repository";
 import { Client } from "../../../../models/client";
 import { AppError } from "../../../../providers/AppError";
+import { Encrypter } from "../../../../providers/Encrypter";
 import { TokenProvider } from "../../../../providers/Token";
 import { UseCase } from "../../../../providers/UseCase";
 import { Validator } from "../../../../providers/Validator";
@@ -12,7 +13,8 @@ export class CreateSession implements UseCase<CreateSessionDTO, Response> {
 
     constructor(
         private clientRepository: ClientRepository,
-        private tokenProvider: TokenProvider
+        private tokenProvider: TokenProvider,
+        private encrypter: Encrypter
     ) { }
 
     async execute(request: CreateSessionDTO): Promise<Response> {
@@ -29,13 +31,14 @@ export class CreateSession implements UseCase<CreateSessionDTO, Response> {
             return genericError
         }
 
-        if (client.password !== request.password) {
+        const passwordMatch = this.encrypter.compare(request.password, client.password!)
+        if (passwordMatch === false) {
             return genericError
         }
 
         const token = this.tokenProvider.create(client.id!)
         delete client.password
-        
+
         return { token, client }
     }
 

@@ -2,13 +2,14 @@ import { Request, Response } from "express";
 import { CreateSession } from "../../../modules/clients/services/02-create-session";
 import { AppError } from "../../../providers/AppError";
 import { PrismaClientRepository } from "../../database/client-repository";
+import { EncrypterProvider } from "../../providers/EncrypterProvider";
 import { JwtTokenProvider } from "../../providers/JwtTokenProvider";
 import { BaseController } from "./base-controller";
 
 class CreateSessionController extends BaseController {
     protected async executeImpl(req: Request, res: Response): Promise<any> {
         const data = req.body
-        const createSessionService = new CreateSession(new PrismaClientRepository(), new JwtTokenProvider())
+        const createSessionService = new CreateSession(new PrismaClientRepository(), new JwtTokenProvider(), new EncrypterProvider())
         const result = await createSessionService.execute(data)
         if (result instanceof AppError)
             return this.clientError(res, result.message)
