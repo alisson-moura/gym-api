@@ -8,6 +8,7 @@
     ],
     "allowJs": true,
     "outDir": "build",
+    "rootDir": "src",
     "strict": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
@@ -19,6 +20,7 @@
   },
   "exclude": [
     "./build",
+    "./prisma/*",
     "./coverage",
     "./node_modules",
     "**/*.spec.ts"
