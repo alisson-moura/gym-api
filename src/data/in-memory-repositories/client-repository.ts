@@ -1,10 +1,12 @@
 import { Client } from "../../models/client";
 import { AcceptTermDTO } from "../../modules/clients/dtos/accept-term-dto";
+import { AddPhotoDTO } from "../../modules/clients/dtos/add-photo-dto";
 import { CreateAccountDTO } from "../../modules/clients/dtos/create-client-dto";
 import { UpdateAccountDTO } from "../../modules/clients/dtos/update-account-dto";
 import { ClientRepository } from "../client-repository";
 
 export class InMemoryClientRepository implements ClientRepository {
+    updatePhoto: (data: AddPhotoDTO) => Promise<void>;
     all: () => Promise<Client[]>;
     acceptTerm: (data: AcceptTermDTO) => Promise<void>;
     update: (data: UpdateAccountDTO) => Promise<Client>;

@@ -6,6 +6,7 @@ import morgan from 'morgan'
 
 import router from './router'
 import adminRouter from './admin-router'
+import { uploadConfig } from '../providers/UploadProvider'
 
 function startWebServer() {
     const app = express()
@@ -19,6 +20,7 @@ function startWebServer() {
     /*TODO AJUSTAR LOG */
     app.use(morgan('tiny'))
 
+    app.use('/images', express.static(uploadConfig.uploadFolder))
     app.use('/', router)
     app.use('/admin', adminRouter)
 

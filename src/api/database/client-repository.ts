@@ -2,6 +2,7 @@ import { prisma } from '.';
 import { ClientRepository } from '../../data/client-repository'
 import { Client } from '../../models/client';
 import { AcceptTermDTO } from '../../modules/clients/dtos/accept-term-dto';
+import { AddPhotoDTO } from '../../modules/clients/dtos/add-photo-dto';
 import { CreateAccountDTO } from '../../modules/clients/dtos/create-client-dto';
 import { UpdateAccountDTO } from '../../modules/clients/dtos/update-account-dto';
 
@@ -88,6 +89,16 @@ export class PrismaClientRepository implements ClientRepository {
             },
             data: {
                 termStatus: "accepted"
+            }
+        })
+    }
+    async updatePhoto(data: AddPhotoDTO): Promise<void> {
+        await prisma.client.update({
+            where: {
+                id: data.clientId
+            },
+            data: {
+                photo: data.filename
             }
         })
     }

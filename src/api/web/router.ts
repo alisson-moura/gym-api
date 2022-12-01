@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import acceptTermController from './controllers/accept-term-controller'
+import addProfilePhotoController from './controllers/add-profile-photo-controller'
 import cancelAppointmentController from './controllers/cancel-appointment-controller'
 import confirmAppointmentController from './controllers/confirm-appointment-controller'
 import createAccountController from './controllers/create-account-controller'
@@ -12,6 +13,7 @@ import showProfileController from './controllers/show-profile-controller'
 import showTermController from './controllers/show-term-controller'
 import updateProfileController from './controllers/update-profile-controller'
 import auth from './middlewares/auth'
+import { uploadMiddleware } from './middlewares/upload'
 import { validator } from './middlewares/validator'
 const router = Router()
 
@@ -33,11 +35,16 @@ router.put('/profile', auth,
     validator('UpdateAccountSchema'),
     async (req, res) => await updateProfileController.execute(req, res))
 
+router.post('/photo',
+    auth,
+    uploadMiddleware.single('photo'),
+    async (req, res) => await addProfilePhotoController.execute(req, res))
+
 // Term routes
 router.get('/term/:id', auth,
     async (req, res) => await showTermController.execute(req, res))
 
-router.put('/accept/:termId',auth,
+router.put('/accept/:termId', auth,
     async (req, res) => acceptTermController.execute(req, res))
 
 // Get GuideLine

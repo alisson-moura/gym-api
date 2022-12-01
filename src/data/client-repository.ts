@@ -1,5 +1,6 @@
 import { Client } from "../models/client";
 import { AcceptTermDTO } from "../modules/clients/dtos/accept-term-dto";
+import { AddPhotoDTO } from "../modules/clients/dtos/add-photo-dto";
 import { CreateAccountDTO } from "../modules/clients/dtos/create-client-dto";
 import { UpdateAccountDTO } from "../modules/clients/dtos/update-account-dto";
 
@@ -11,4 +12,5 @@ export interface ClientRepository {
     create: (data: CreateAccountDTO) => Promise<void>
     update: (data: UpdateAccountDTO) => Promise<Client>
     acceptTerm: (data: AcceptTermDTO) => Promise<void>
+    updatePhoto: (data: AddPhotoDTO) => Promise<void>
 }
