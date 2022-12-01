@@ -16,7 +16,7 @@ export class CreateAccount implements UseCase<CreateAccountDTO, Response> {
     ) { }
 
     async execute(request: CreateAccountDTO): Promise<Response> {
-        const validadeRequiredFields = Validator.requiredFields(['name', 'email', 'password', 'confirmPassword', 'gender', 'company'], request)
+        const validadeRequiredFields = Validator.requiredFields(['name', 'email', 'password', 'confirmPassword', 'gender', 'company', 'badge'], request)
         const validatePassword = Validator.minLengthField(6, { name: 'password', value: request.password })
         const validateConfirmPassword = Validator.equalFields([{ name: 'password', value: request.password }, { name: 'confirmPassword', value: request.confirmPassword }])
 

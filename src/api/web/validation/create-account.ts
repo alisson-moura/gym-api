@@ -7,5 +7,5 @@ export const CreateAccountSchema = Joi.object({
     confirmPassword: Joi.ref('password'),
     gender: Joi.string().max(1).required(),
     company: Joi.string().required(),
-    badge: Joi.number()
+    badge: Joi.number().allow('')
 })

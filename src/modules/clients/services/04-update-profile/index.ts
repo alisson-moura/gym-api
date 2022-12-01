@@ -14,7 +14,7 @@ export class UpdateAccount implements UseCase<UpdateAccountDTO, Response> {
     ) { }
 
     async execute(request: UpdateAccountDTO): Promise<Response> {
-        const validateRequiredFields = Validator.requiredFields(['id', 'name', 'email', 'gender'], request)
+        const validateRequiredFields = Validator.requiredFields(['id', 'name', 'email', 'gender', 'badge'], request)
         if (validateRequiredFields) {
             return new AppError(validateRequiredFields)
         }
