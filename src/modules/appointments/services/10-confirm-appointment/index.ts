@@ -28,8 +28,8 @@ export class ConfirmAppointment implements UseCase<ConfirmAppointmentDTO, Respon
 
         const appointmentDate = new Date(appointment.date)
         appointmentDate.setHours(appointment.hour)
-        const isBefore = this.dateProvider.isBefore(appointmentDate, new Date())
-        if (isBefore) {
+        const diffInHours = this.dateProvider.differenceInHours(appointmentDate, new Date())
+        if (diffInHours > 0) {
             return new AppError('The appointment is invalid because it has already passed')
         }
 
