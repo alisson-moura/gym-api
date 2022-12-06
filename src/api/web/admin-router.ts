@@ -5,6 +5,8 @@ import listAppointments from './controllers/admin/list-appointments'
 import listClientAppointments from './controllers/admin/list-client-appointments'
 import listClients from './controllers/admin/list-clients'
 import showPresenceToken from './controllers/admin/show-presence-token'
+import showProfile from './controllers/admin/show-profile'
+import showStatistics from './controllers/admin/statistics'
 import auth from './middlewares/auth'
 import { validator } from './middlewares/validator'
 
@@ -27,5 +29,9 @@ adminRouter.post('/presence-token', auth,
     async (req, res) => createPresenceToken.execute(req, res))
 adminRouter.get('/presence-token', auth,
     async (req, res) => showPresenceToken.execute(req, res))
+adminRouter.get('/profile', auth,
+    async (req, res) => showProfile.execute(req, res))
+    adminRouter.get('/statistics', auth,
+    async (req, res) =>  showStatistics.execute(req, res))
 
 export default adminRouter

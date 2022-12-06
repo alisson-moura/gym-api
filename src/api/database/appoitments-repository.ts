@@ -56,6 +56,9 @@ export class PrismaAppointmentRepository implements AppoitmentRepository {
                     gte: startDay,
                     lt: endDay
                 }
+            },
+            include: {
+                client: true
             }
         })
         return appointments
