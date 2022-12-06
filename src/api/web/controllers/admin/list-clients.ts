@@ -6,11 +6,13 @@ import { BaseController } from "../base-controller";
 
 class ListClientsController extends BaseController {
     protected async executeImpl(req: Request, res: Response): Promise<any> {
+        const queryPage = req.query.page as any
+
         const listClientsService = new ListClients(new PrismaClientRepository())
-        const result = await  listClientsService.execute()
+        const result = await listClientsService.execute({ page: queryPage })
         return this.ok(res, result)
     }
 
 }
 
-export default new  ListClientsController()
+export default new ListClientsController()

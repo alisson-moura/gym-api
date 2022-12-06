@@ -5,10 +5,15 @@ import { AcceptTermDTO } from '../../modules/clients/dtos/accept-term-dto';
 import { AddPhotoDTO } from '../../modules/clients/dtos/add-photo-dto';
 import { CreateAccountDTO } from '../../modules/clients/dtos/create-client-dto';
 import { UpdateAccountDTO } from '../../modules/clients/dtos/update-account-dto';
+import { databasePagination } from './pagination';
 
 export class PrismaClientRepository implements ClientRepository {
-    async all(): Promise<Client[]> {
-        const clients = await prisma.client.findMany()
+    async all(page: number): Promise<Client[]> {
+        const {skip, take} = databasePagination(page)
+        const clients = await prisma.client.findMany({
+            take,
+            skip
+        })
         return clients
     }
     async create(data: CreateAccountDTO): Promise<void> {

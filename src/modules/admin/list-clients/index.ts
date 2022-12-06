@@ -3,15 +3,16 @@ import { Client } from "../../../models/client"
 import { UseCase } from "../../../providers/UseCase"
 
 type Response = { clients: Client[] }
-
-export class ListClients implements UseCase<any, Response> {
+type Request = { page?: number }
+export class ListClients implements UseCase<Request, Response> {
 
     constructor(
         private clientRepository: ClientRepository,
     ) { }
 
-    async execute(): Promise<Response> {
-        const clients = await this.clientRepository.all()
+    async execute(request: Request): Promise<Response> {
+        const page = request.page || 0
+        const clients = await this.clientRepository.all(page)
         return { clients }
     }
 }

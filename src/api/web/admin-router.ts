@@ -19,6 +19,7 @@ adminRouter.post('/signin',
 
 
 adminRouter.get('/clients', auth,
+    validator('PaginationSchema'),
     async (req, res) => listClients.execute(req, res))
 adminRouter.get('/clients/:id/appointments', auth,
     async (req, res) => listClientAppointments.execute(req, res))
@@ -31,7 +32,7 @@ adminRouter.get('/presence-token', auth,
     async (req, res) => showPresenceToken.execute(req, res))
 adminRouter.get('/profile', auth,
     async (req, res) => showProfile.execute(req, res))
-    adminRouter.get('/statistics', auth,
-    async (req, res) =>  showStatistics.execute(req, res))
+adminRouter.get('/statistics', auth,
+    async (req, res) => showStatistics.execute(req, res))
 
 export default adminRouter

@@ -5,6 +5,7 @@ import { CreateAdminSessionSchema } from "./create-admin-session";
 import { CreateSessionSchema } from "./create-session";
 import { DateSchema } from "./date";
 import { NewAppointmentSchema } from "./new-appointment";
+import { PaginationSchema } from "./pagination";
 import { UpdateAccountSchema } from "./update-account";
 
 const Schemas:any = {
@@ -15,7 +16,8 @@ const Schemas:any = {
     NewAppointmentSchema,
     CancelAppointmentSchema,
     ConfirmAppointmentSchema, 
-    CreateAdminSessionSchema
+    CreateAdminSessionSchema,
+    PaginationSchema
 }
 
 export default Schemas
