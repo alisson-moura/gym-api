@@ -5,6 +5,7 @@ import cancelAppointmentController from './controllers/cancel-appointment-contro
 import confirmAppointmentController from './controllers/confirm-appointment-controller'
 import createAccountController from './controllers/create-account-controller'
 import createSessionController from './controllers/create-session-controller'
+import healthController from './controllers/health-controller'
 import newAppointmentController from './controllers/new-appointment-controller'
 import showAvailableGuideline from './controllers/show-available-guideline'
 import showAvailablesAppointmentsController from './controllers/show-availables-appointments-controller'
@@ -16,6 +17,10 @@ import auth from './middlewares/auth'
 import { uploadMiddleware } from './middlewares/upload'
 import { validator } from './middlewares/validator'
 const router = Router()
+
+
+//health route
+router.get('/health', async (req, res) => await healthController.execute(req, res))
 
 // Session routes 
 router.post('/signup',
