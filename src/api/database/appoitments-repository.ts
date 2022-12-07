@@ -59,6 +59,9 @@ export class PrismaAppointmentRepository implements AppoitmentRepository {
             },
             include: {
                 client: true
+            },
+            orderBy: {
+                hour: 'asc'
             }
         })
         return appointments

@@ -3,7 +3,7 @@ export class Client {
     name: string
     email: string
     password?: string
-    badge?: number | null
+    badge: number
     photo?: string | null
     comments?: string | null
     birthDate?: Date | null

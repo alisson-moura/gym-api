@@ -8,11 +8,30 @@ import { UpdateAccountDTO } from '../../modules/clients/dtos/update-account-dto'
 import { databasePagination } from './pagination';
 
 export class PrismaClientRepository implements ClientRepository {
-    async all(page: number): Promise<Client[]> {
-        const {skip, take} = databasePagination(page)
+    async findAllByName(page: number, name: string): Promise<Client[]> {
+        const { skip, take } = databasePagination(page)
         const clients = await prisma.client.findMany({
             take,
-            skip
+            skip,
+            where: {
+                name: {
+                    contains: name
+                }
+            },
+            orderBy: {
+                id: 'asc'
+            }
+        })
+        return clients
+    }
+    async all(page: number): Promise<Client[]> {
+        const { skip, take } = databasePagination(page)
+        const clients = await prisma.client.findMany({
+            take,
+            skip,
+            orderBy: {
+                id: 'asc'
+            }
         })
         return clients
     }

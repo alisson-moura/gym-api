@@ -48,7 +48,7 @@ model Client {
   status      String        @default("active")
   termId      Int?
   termStatus  String        @default("pending")
-  badge       Int?          @db.Integer
+  badge       Int           @default(0) @db.Integer
   photo       String?       @db.VarChar(255)
   comments    String?       @db.VarChar(255)
   birthDate   DateTime?     @db.Timestamp(6)
