@@ -19,23 +19,23 @@ export class UpdateAccount implements UseCase<UpdateAccountDTO, Response> {
             return new AppError(validateRequiredFields)
         }
         if (request.gender != 'm' && request.gender != 'f') {
-            return new AppError('Field gender accept values: m or f')
+            return new AppError('O campo genêro aceita os valores: m or f.')
         }
 
         const client = await this.clientRepository.findById({ id: request.id, password: false })
         if (client === undefined) {
-            return new AppError('Invalid client id')
+            return new AppError('Aluno(a) não encontrado.')
         }
 
         const emailIsAlreadyInUse = await this.clientRepository.findByEmail(request.email)
         if (emailIsAlreadyInUse && emailIsAlreadyInUse.id != client.id) {
-            return new AppError('Email in use by another user')
+            return new AppError('E-mail já está em uso por outro aluno(a).')
         }
 
         if (request.badge) {
             const badgeIsAlreadyInUse = await this.clientRepository.findByBadge(request.badge)
             if (badgeIsAlreadyInUse && badgeIsAlreadyInUse.id != client.id) {
-                return new AppError('Badge in use by another user')
+                return new AppError('Código já está em uso por outro aluno(a).')
             }
         }
         const updatedClient = await this.clientRepository.update(request)

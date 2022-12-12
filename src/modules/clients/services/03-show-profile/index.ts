@@ -18,7 +18,7 @@ export class ShowProfile implements UseCase<Request, Response> {
     async execute(request: Request): Promise<Response> {
         const client = await this.clientRepository.findById({ id: request.id, password: false })
         if (client === undefined) {
-            return new AppError('Invalid client id')
+            return new AppError('Aluno(a) não encontrado.')
         }
 
         return client

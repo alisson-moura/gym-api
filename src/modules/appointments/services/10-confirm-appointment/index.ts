@@ -19,26 +19,26 @@ export class ConfirmAppointment implements UseCase<ConfirmAppointmentDTO, Respon
 
         const appointment = await this.appointmentRepository.findById(appointmentId)
         if (appointment === undefined) {
-            return new AppError('Invalid appointment id')
+            return new AppError('Agendamento não encontrado.')
         }
 
         if (appointment.client && appointment.client.id != clientId) {
-            return new AppError('Invalid client id')
+            return new AppError('Aluno(a) não encontrado.')
         }
 
         const appointmentDate = new Date(appointment.date)
         appointmentDate.setHours(appointment.hour)
         const diffInHours = this.dateProvider.differenceInHours(appointmentDate, new Date())
         if (diffInHours > 0) {
-            return new AppError('The appointment is invalid because it has already passed')
+            return new AppError('Não é possível confirmar agendamentos que já passaram.')
         }
 
         const activeToken = await this.tokenRepository.find()
         if (!activeToken) {
-            return new AppError('An unexpected error')
+            return new AppError('Erro inesperado', 500)
         }
         if (token != activeToken.token) {
-            return new AppError('Provided token is invalid')
+            return new AppError('Token fornecido é inválido')
         }
 
         const confirmedAppointment = await this.appointmentRepository.confirm({ id: appointmentId })

@@ -30,18 +30,18 @@ export class CreateAccount implements UseCase<CreateAccountDTO, Response> {
             return new AppError(validateConfirmPassword)
         }
         if (request.gender != 'm' && request.gender != 'f') {
-            return new AppError('Field gender accept values: m or f')
+            return new AppError('O campo genêro aceita os valores: m ou f.')
         }
 
         const emailIsAlreadyInUse = await this.clientRepository.findByEmail(request.email)
         if (emailIsAlreadyInUse) {
-            return new AppError('Email in use by another user')
+            return new AppError('E-mail já está em uso por outro aluno(a).')
         }
 
         if (request.badge) {
             const badgeIsAlreadyInUse = await this.clientRepository.findByBadge(request.badge)
             if (badgeIsAlreadyInUse) {
-                return new AppError('Badge in use by another user')
+                return new AppError('Código já está em uso por outro aluno(a).')
             }
         }
 

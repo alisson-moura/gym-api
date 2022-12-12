@@ -16,7 +16,7 @@ export class AddProfilePhoto implements UseCase<AddPhotoDTO, Response> {
         const client = await this.clientRepository.findById({ id: clientId, password: false })
 
         if (client === undefined) {
-            return new AppError('Invalid user')
+            return new AppError('Aluno(a) não encontrado.')
         }
 
         await this.clientRepository.updatePhoto({ filename, clientId })

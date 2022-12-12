@@ -30,7 +30,7 @@ export class NewAppointment implements UseCase<CreateAppointmentDTO, Response> {
 
         // verifica se o dia do agendamento é antes que o dia atual
         if (this.dateProvider.isBefore(appointmentDay, new Date())) {
-            return new AppError('Only future dates are accepted')
+            return new AppError('Apenas datas futuras são aceitas.')
         }
 
         // get available hours for new appoitments
@@ -53,13 +53,13 @@ export class NewAppointment implements UseCase<CreateAppointmentDTO, Response> {
             })
             .map(al => al.hour)
         if (!availableHours.includes(hour)) {
-            return new AppError('Hour not available for appointment')
+            return new AppError('Horário não disponível para agendamento.')
         }
 
         // verifica o id do cliente
         const client = await this.clientRepository.findById({ id: clientId, password: false })
         if (client === undefined) {
-            return new AppError('Invalid client id')
+            return new AppError('Aluno(a) não encontrado.')
         }
 
         // verifica se o cliente pode realizar novos agendamentos
@@ -72,11 +72,11 @@ export class NewAppointment implements UseCase<CreateAppointmentDTO, Response> {
             return this.dateProvider.isAfter(item.date, appointmentDay)
         })
         if (futureAppointment) {
-            return new AppError('An appointment already exists for this client')
+            return new AppError('Existe um agendamento pendente para este aluno(a).')
         }
 
         if (pendingClientAppointments.some(item => this.dateProvider.differenceInHours(appointmentDay, item.date) <= 48))
-            return new AppError('Client is not able to make new appointments')
+            return new AppError('Aluno(a) não está habilitado para fazer novos agendamentos.')
 
         date.setHours(0, 0, 0)
         const newAppointment = await this.appointmentRepository.create({

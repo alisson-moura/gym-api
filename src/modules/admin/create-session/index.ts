@@ -17,7 +17,7 @@ export class CreateSession implements UseCase<CreateSessionDTO, Response> {
     ) { }
 
     async execute(request: CreateSessionDTO): Promise<Response> {
-        const genericError = new AppError('Invalid login or password')
+        const genericError = new AppError('Usuário ou senha estão incorretos.')
 
         const admin = await this.adminRepository.findByLogin(request.login)
         if (admin === null) {

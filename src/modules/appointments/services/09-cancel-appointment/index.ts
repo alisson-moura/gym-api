@@ -17,22 +17,22 @@ export class CancelAppointment implements UseCase<CancelAppointmentDTO, Response
 
         const appointment = await this.appointmentRepository.findById(appointmentId)
         if (appointment === undefined) {
-            return new AppError('Invalid appointment id')
+            return new AppError('Agendamento não encontrado.')
         }
 
         if (appointment.status != 'Pendente') {
-            return new AppError('This appointment cannot be canceled')
+            return new AppError('Este agendamento não pode ser cancelado.')
         }
 
 
         const appointmentDate = new Date(appointment.date)
         appointmentDate.setHours(appointment.hour)
         if (this.dateProvider.isBefore(appointmentDate, new Date())) {
-            return new AppError('Past appointments cannot be canceled')
+            return new AppError('Agendamentos passados não podem ser cancelados.')
         }
 
         if (appointment.client && appointment.client.id != clientId) {
-            return new AppError('This appointment does not belong to the informed customer')
+            return new AppError('Este agendamento pertence a outro aluno(a).')
         }
 
         const canceledAppointment = await this.appointmentRepository.cancel({

@@ -17,7 +17,7 @@ export class ShowTerm implements UseCase<Request, Response> {
         const term = await this.termRepository.findById(id)
 
         if (term === undefined) {
-            return new AppError('Invalid term id')
+            return new AppError('Termo não encontrado.')
         }
 
         return term

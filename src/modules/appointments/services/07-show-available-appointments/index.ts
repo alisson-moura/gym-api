@@ -21,7 +21,7 @@ export class ShowAvailableAppointments implements UseCase<Request, Response> {
         day.setHours(0, 0, 0, 0)
 
         if (this.dateProvider.isBefore(date, day)) {
-            return new AppError('Date provided is invalid')
+            return new AppError('Data fornecida é inválida.')
         }
 
         const schedule = new Schedule()

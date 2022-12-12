@@ -19,7 +19,7 @@ export class AcceptTerm implements UseCase<AcceptTermDTO, Response> {
         const term = await this.termRepository.findById(termId)
 
         if (client === undefined || term === undefined) {
-            return new AppError('Invalid user or term')
+            return new AppError('Termo ou aluno(a) não encontrados.')
         }
 
         await this.clientRepository.acceptTerm({ termId, clientId })

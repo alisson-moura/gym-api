@@ -20,7 +20,7 @@ export class CreateSession implements UseCase<CreateSessionDTO, Response> {
     async execute(request: CreateSessionDTO): Promise<Response> {
         const validateRequiredFields = Validator.requiredFields(['email', 'password'], request)
         const validatePasswordField = Validator.minLengthField(6, { name: 'password', value: request.password })
-        const genericError = new AppError('Invalid email or password')
+        const genericError = new AppError('E-mail ou senha estão incorretos.')
 
         if (validatePasswordField || validateRequiredFields) {
             return genericError
