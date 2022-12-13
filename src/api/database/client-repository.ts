@@ -1,6 +1,7 @@
 import { prisma } from '.';
 import { ClientRepository } from '../../data/client-repository'
 import { Client } from '../../models/client';
+import { UpdatePasswordDTO } from '../../modules/admin/reset-password/dto';
 import { AcceptTermDTO } from '../../modules/clients/dtos/accept-term-dto';
 import { AddPhotoDTO } from '../../modules/clients/dtos/add-photo-dto';
 import { CreateAccountDTO } from '../../modules/clients/dtos/create-client-dto';
@@ -102,6 +103,17 @@ export class PrismaClientRepository implements ClientRepository {
                 height: data.height,
                 weight: data.weight,
                 company: data.company
+            }
+        })
+        return updateUser
+    }
+    async updatePassword(data: UpdatePasswordDTO): Promise<Client> {
+        const updateUser = await prisma.client.update({
+            where: {
+                id: data.id
+            },
+            data: {
+                password: data.password
             }
         })
         return updateUser
