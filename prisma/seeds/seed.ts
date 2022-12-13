@@ -9,7 +9,7 @@ async function main() {
 
     await prisma.admin.deleteMany() // clear prev userAdmin
     const hash = encrypter.encrypt(defaultAdminPassword)
-    
+
     await prisma.admin.create({
         data: {
             login: 'admin',
@@ -47,6 +47,13 @@ async function main() {
             Proibido: sapato social, chinelos, sandálias, sapatilha, descalço, saia, vestido, short jeans ou calça jeans;
             Acompanhantes: Não é permitido a entrada de acompanhantes (familiares, amigos ou personal trainer)`
         }
+    })
+
+    await prisma.muscleGroup.deleteMany()
+    await prisma.muscleGroup.createMany({
+        data: [
+            { name: 'Costas' }, { name: 'Bíceps' }, { name: 'Tríceps' }, { name: 'Ombros' }, { name: 'Membros inferiores' }, { name: 'Peito' }
+        ]
     })
 }
 

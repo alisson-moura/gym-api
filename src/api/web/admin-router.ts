@@ -4,6 +4,7 @@ import createSession from './controllers/admin/create-session'
 import listAppointments from './controllers/admin/list-appointments'
 import listClientAppointments from './controllers/admin/list-client-appointments'
 import listClients from './controllers/admin/list-clients'
+import listMuscleGroup from './controllers/admin/list-muscle-group'
 import showPresenceToken from './controllers/admin/show-presence-token'
 import showProfile from './controllers/admin/show-profile'
 import showStatistics from './controllers/admin/statistics'
@@ -34,5 +35,11 @@ adminRouter.get('/profile', auth,
     async (req, res) => showProfile.execute(req, res))
 adminRouter.get('/statistics', auth,
     async (req, res) => showStatistics.execute(req, res))
+
+/**
+ * Rotas de exercicios
+ */
+adminRouter.get('/muscle-group', auth,
+    async (req, res) => listMuscleGroup.execute(req, res))
 
 export default adminRouter

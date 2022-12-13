@@ -72,3 +72,20 @@ model Appointment {
 
   client Client @relation(fields: [clientId], references: [id])
 }
+
+model MuscleGroup {
+  id   Int    @id @default(autoincrement())
+  name String
+  exercises Exercises[]
+}
+
+model Exercises {
+  id      Int @id @default(autoincrement())
+  groupId Int
+  name String
+  url String
+  cover String?
+  description String?
+
+  group MuscleGroup @relation(fields: [groupId], references: [id])
+}
