@@ -3,6 +3,6 @@ export class Exercise {
     groupId: number
     name: string
     url: string
-    cover?: string
-    description?: string
+    cover?: string | null
+    description?: string | null
 }

@@ -1,14 +1,17 @@
 import { Router } from 'express'
+import createExercise from './controllers/admin/create-exercise'
 import createPresenceToken from './controllers/admin/create-presence-token'
 import createSession from './controllers/admin/create-session'
 import listAppointments from './controllers/admin/list-appointments'
 import listClientAppointments from './controllers/admin/list-client-appointments'
 import listClients from './controllers/admin/list-clients'
+import listExercises from './controllers/admin/list-exercises'
 import listMuscleGroup from './controllers/admin/list-muscle-group'
 import showPresenceToken from './controllers/admin/show-presence-token'
 import showProfile from './controllers/admin/show-profile'
 import showStatistics from './controllers/admin/statistics'
 import auth from './middlewares/auth'
+import { uploadMiddleware } from './middlewares/upload'
 import { validator } from './middlewares/validator'
 
 const adminRouter = Router()
@@ -41,5 +44,11 @@ adminRouter.get('/statistics', auth,
  */
 adminRouter.get('/muscle-group', auth,
     async (req, res) => listMuscleGroup.execute(req, res))
+adminRouter.post('/exercises', auth,
+    uploadMiddleware.single('cover'),
+    validator('CreateExerciseSchema'),
+    async (req, res) => createExercise.execute(req, res))
+adminRouter.get('/exercises/:id', auth,
+    async (req, res) => listExercises.execute(req, res))
 
 export default adminRouter
