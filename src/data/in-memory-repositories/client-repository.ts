@@ -1,4 +1,5 @@
 import { Client } from "../../models/client";
+import { UpdatePasswordDTO } from "../../modules/admin/reset-password/dto";
 import { AcceptTermDTO } from "../../modules/clients/dtos/accept-term-dto";
 import { AddPhotoDTO } from "../../modules/clients/dtos/add-photo-dto";
 import { CreateAccountDTO } from "../../modules/clients/dtos/create-client-dto";
@@ -6,6 +7,7 @@ import { UpdateAccountDTO } from "../../modules/clients/dtos/update-account-dto"
 import { ClientRepository } from "../client-repository";
 
 export class InMemoryClientRepository implements ClientRepository {
+    updatePassword: (data: UpdatePasswordDTO) => Promise<Client>;
     findAllByName: (page: number, name: string) => Promise<Client[]>;
     updatePhoto: (data: AddPhotoDTO) => Promise<void>;
     all: () => Promise<Client[]>;

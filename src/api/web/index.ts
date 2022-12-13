@@ -19,7 +19,7 @@ function startWebServer() {
     app.use(express.json())
 
     /*TODO AJUSTAR LOG */
-    app.use(morgan('tiny'))
+    //app.use(morgan('tiny'))
 
     app.use('/images', express.static(uploadConfig.uploadFolder))
     app.use('/', router)
