@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import createPresenceToken from './controllers/admin/create-presence-token'
 import createSession from './controllers/admin/create-session'
+import deleteAppointment from './controllers/admin/delete-appointment'
 import listAppointments from './controllers/admin/list-appointments'
 import listClientAppointments from './controllers/admin/list-client-appointments'
 import listClients from './controllers/admin/list-clients'
@@ -29,6 +30,8 @@ adminRouter.get('/clients/:id/appointments', auth,
 adminRouter.get('/appointments', auth,
     validator('DateSchema'),
     async (req, res) => listAppointments.execute(req, res))
+adminRouter.delete('/appointments/:id', auth,
+    async (req, res) => deleteAppointment.execute(req, res))
 adminRouter.post('/presence-token', auth,
     async (req, res) => createPresenceToken.execute(req, res))
 adminRouter.get('/presence-token', auth,

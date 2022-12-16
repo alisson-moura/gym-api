@@ -8,4 +8,5 @@ export interface AppoitmentRepository {
     confirm: (data: { id: number }) => Promise<Appointment>
     findByClientId: (id: number) => Promise<Appointment[]>
     findAll: (date: Date) => Promise<Appointment[]>
+    delete: (id: number) => Promise<void>
 }

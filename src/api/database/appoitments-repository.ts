@@ -4,6 +4,9 @@ import { Appointment } from '../../models/appointment';
 import { CreateAppointmentDTO } from '../../modules/appointments/dtos/create-appointment-dto';
 
 export class PrismaAppointmentRepository implements AppoitmentRepository {
+    async delete(id: number): Promise<void> {
+        await prisma.appointment.delete({ where: { id } })
+    }
     async confirm(data: { id: number }): Promise<Appointment> {
         const appointment = await prisma.appointment.update({
             where: {
