@@ -19,6 +19,18 @@ export class PrismaAppointmentRepository implements AppoitmentRepository {
         })
         return appointment
     }
+    async pending(data: { id: number; }): Promise<Appointment> {
+        const appointment = await prisma.appointment.update({
+            where: {
+                id: data.id
+            },
+            data: {
+                status: 'Pendente',
+                canceledAt: new Date()
+            }
+        })
+        return appointment
+    }
     async cancel(data: { id: number; comments?: string | undefined; }): Promise<Appointment> {
         const appointment = await prisma.appointment.update({
             where: {

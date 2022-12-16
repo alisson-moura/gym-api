@@ -9,6 +9,7 @@ import resetPassword from './controllers/admin/reset-password'
 import showPresenceToken from './controllers/admin/show-presence-token'
 import showProfile from './controllers/admin/show-profile'
 import showStatistics from './controllers/admin/statistics'
+import updateStatusAppointment from './controllers/admin/update-status-appointment'
 import auth from './middlewares/auth'
 import { validator } from './middlewares/validator'
 
@@ -32,6 +33,8 @@ adminRouter.get('/appointments', auth,
     async (req, res) => listAppointments.execute(req, res))
 adminRouter.delete('/appointments/:id', auth,
     async (req, res) => deleteAppointment.execute(req, res))
+adminRouter.patch('/appointments/:id', auth,
+    async (req, res) => updateStatusAppointment.execute(req, res))
 adminRouter.post('/presence-token', auth,
     async (req, res) => createPresenceToken.execute(req, res))
 adminRouter.get('/presence-token', auth,
