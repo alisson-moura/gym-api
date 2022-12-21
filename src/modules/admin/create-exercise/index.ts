@@ -17,6 +17,7 @@ export class CreateExercise implements UseCase<CreateExerciseDTO, Response> {
             return new AppError('Já existe um exercício com este nome.')
         }
 
+        request.groupId = Number(request.groupId)
         const verifyGroup = await this.exerciseRepository.findGroupById(request.groupId)
         if (verifyGroup == null) {
             return new AppError('Grupo informado é inválido.')

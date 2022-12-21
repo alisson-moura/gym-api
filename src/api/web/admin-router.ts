@@ -2,6 +2,7 @@ import { Router } from 'express'
 import createExercise from './controllers/admin/create-exercise'
 import createPresenceToken from './controllers/admin/create-presence-token'
 import createSession from './controllers/admin/create-session'
+import deleteExercise from './controllers/admin/delete-exercise'
 import listAppointments from './controllers/admin/list-appointments'
 import listClientAppointments from './controllers/admin/list-client-appointments'
 import listClients from './controllers/admin/list-clients'
@@ -10,6 +11,7 @@ import listMuscleGroup from './controllers/admin/list-muscle-group'
 import showPresenceToken from './controllers/admin/show-presence-token'
 import showProfile from './controllers/admin/show-profile'
 import showStatistics from './controllers/admin/statistics'
+import updateExercise from './controllers/admin/update-exercise'
 import auth from './middlewares/auth'
 import { uploadMiddleware } from './middlewares/upload'
 import { validator } from './middlewares/validator'
@@ -50,5 +52,11 @@ adminRouter.post('/exercises', auth,
     async (req, res) => createExercise.execute(req, res))
 adminRouter.get('/exercises/:id', auth,
     async (req, res) => listExercises.execute(req, res))
+adminRouter.delete('/exercises/:id', auth,
+    async (req, res) => deleteExercise.execute(req, res))
+adminRouter.put('/exercises', auth,
+    uploadMiddleware.single('cover'),
+    validator('UpdateExerciseSchema'),
+    async (req, res) => updateExercise.execute(req, res))
 
 export default adminRouter

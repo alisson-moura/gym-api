@@ -76,6 +76,7 @@ model Appointment {
 model MuscleGroup {
   id   Int    @id @default(autoincrement())
   name String
+  banner String?
   exercises Exercises[]
 }
 

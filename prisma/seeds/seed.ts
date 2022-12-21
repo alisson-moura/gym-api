@@ -52,7 +52,7 @@ async function main() {
     await prisma.muscleGroup.deleteMany()
     await prisma.muscleGroup.createMany({
         data: [
-            { name: 'Costas' }, { name: 'Bíceps' }, { name: 'Tríceps' }, { name: 'Ombros' }, { name: 'Membros inferiores' }, { name: 'Peito' }
+            { name: 'Costas', banner: 'https://cdn.vidaativa.pt/uploads/2018/09/treino-costas.jpg' }, { name: 'Braços', banner: 'https://gooutside.com.br/wp-content/uploads/sites/3/2020/03/exercicios-para-bracos-1280x720.jpg' },  { name: 'Ombros', banner: 'https://lirp.cdn-website.com/cbc52636/dms3rep/multi/opt/treino-ombro-dr-guilherme-noffs-ortopedista-ombro-sao-paulo-1920w.jpg' }, { name: 'Pernas', banner: 'https://739028l.ha.azioncdn.net/img/2022/05/blog/8702/treino-de-pernas-para-homens.jpg' }, { name: 'Peito', banner: 'https://blog.gsuplementos.com.br/wp-content/uploads/2021/01/iStock-1028273740.jpg' }
         ]
     })
 }
