@@ -14,8 +14,6 @@ export class ListClients implements UseCase<Request, Response> {
         const page = request.page || 0
         const search = request.search as any
 
-        console.log(request)
-
         if (search) {
             if (!isNaN(search)) {
                 const clients = await this.clientRepository.findByBadge(parseInt(search))
