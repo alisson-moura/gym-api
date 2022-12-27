@@ -74,19 +74,34 @@ model Appointment {
 }
 
 model MuscleGroup {
-  id   Int    @id @default(autoincrement())
-  name String
-  banner String?
+  id        Int         @id @default(autoincrement())
+  name      String
+  banner    String?
   exercises Exercises[]
 }
 
 model Exercises {
-  id      Int @id @default(autoincrement())
-  groupId Int
-  name String
-  url String
-  cover String?
+  id          Int     @id @default(autoincrement())
+  groupId     Int
+  name        String
+  url         String
+  cover       String?
   description String?
 
   group MuscleGroup @relation(fields: [groupId], references: [id])
+}
+
+model Notifications {
+  id        Int                 @id @default(autoincrement())
+  title     String
+  text      String              @db.Text
+  createdAt DateTime            @default(now())
+  files     NotificationFiles[]
+}
+
+model NotificationFiles {
+  id             Int           @id @default(autoincrement())
+  file           String
+  notificationId Int
+  notification   Notifications @relation(fields: [notificationId], references: [id])
 }
