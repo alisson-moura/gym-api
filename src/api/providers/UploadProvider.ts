@@ -23,6 +23,7 @@ export const uploadConfig = {
             "image/pjpeg",
             "image/png",
             "image/jpg",
+            "application/pdf",
         ];
 
         if (allowedMimes.includes(file.mimetype)) {

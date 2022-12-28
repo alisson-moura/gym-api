@@ -18,6 +18,7 @@ import updateExercise from './controllers/admin/update-exercise'
 import auth from './middlewares/auth'
 import { uploadMiddleware } from './middlewares/upload'
 import { validator } from './middlewares/validator'
+import createNotification from './controllers/admin/notifications/create-notification'
 
 const adminRouter = Router()
 
@@ -67,5 +68,16 @@ adminRouter.put('/exercises', auth,
     uploadMiddleware.single('cover'),
     validator('UpdateExerciseSchema'),
     async (req, res) => updateExercise.execute(req, res))
+
+
+/**
+* Rotas de Notificações
+*/
+adminRouter.post('/notifications', auth,
+    uploadMiddleware.array('files'),
+    validator('CreateNotificationSchema'),
+    async (req, res) => createNotification.execute(req, res))
+// delete notification
+// list notification
 
 export default adminRouter
