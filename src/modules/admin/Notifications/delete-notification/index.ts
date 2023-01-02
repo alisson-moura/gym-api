@@ -1,6 +1,6 @@
-import { NotificationsRepository } from "../../../data/notifications-repository"
-import { AppError } from "../../../providers/AppError"
-import { UseCase } from "../../../providers/UseCase"
+import { NotificationsRepository } from "../../../../data/notifications-repository"
+import { AppError } from "../../../../providers/AppError"
+import { UseCase } from "../../../../providers/UseCase"
 
 type Response = void | AppError
 type Request = {id: number}

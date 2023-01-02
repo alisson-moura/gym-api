@@ -19,6 +19,8 @@ import auth from './middlewares/auth'
 import { uploadMiddleware } from './middlewares/upload'
 import { validator } from './middlewares/validator'
 import createNotification from './controllers/admin/notifications/create-notification'
+import listNotifications from './controllers/admin/notifications/list-notifications'
+import deleteNotifications from './controllers/admin/notifications/delete-notifications'
 
 const adminRouter = Router()
 
@@ -77,7 +79,14 @@ adminRouter.post('/notifications', auth,
     uploadMiddleware.array('files'),
     validator('CreateNotificationSchema'),
     async (req, res) => createNotification.execute(req, res))
-// delete notification
-// list notification
+
+adminRouter.get('/notifications', auth,
+    validator('PaginationSchema'),
+    async (req, res) => listNotifications.execute(req, res))
+
+adminRouter.delete('/notifications/:id', auth,
+    async (req, res) => deleteNotifications.execute(req, res))
+
+
 
 export default adminRouter

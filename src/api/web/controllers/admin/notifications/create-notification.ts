@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CreateNotification } from "../../../../../modules/admin/create-notification";
+import { CreateNotification } from "../../../../../modules/admin/Notifications/create-notification";
 import { PrismaNotificationsRepository } from "../../../../database/notifications-repository";
 import { BaseController } from "../../base-controller";
 
