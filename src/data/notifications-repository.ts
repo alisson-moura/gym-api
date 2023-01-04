@@ -5,5 +5,5 @@ export interface NotificationsRepository {
     create: (data: CreateNotificationDTO) => Promise<Notification>
     findById: (id: number) => Promise<Notification | null>
     delete: (id: number) => Promise<void>
-    findAll: (page: number) => Promise<Notification[]>
+    findAll: (page: number, limit?: number) => Promise<Notification[]>
 }

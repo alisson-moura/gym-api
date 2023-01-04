@@ -6,7 +6,9 @@ import confirmAppointmentController from './controllers/confirm-appointment-cont
 import createAccountController from './controllers/create-account-controller'
 import createSessionController from './controllers/create-session-controller'
 import healthController from './controllers/health-controller'
+import listNotifications from './controllers/list-notifications'
 import newAppointmentController from './controllers/new-appointment-controller'
+import readNotificationController from './controllers/read-notification-controller'
 import showAvailableGuideline from './controllers/show-available-guideline'
 import showAvailablesAppointmentsController from './controllers/show-availables-appointments-controller'
 import showClientAppointmentsController from './controllers/show-client-appointments-controller'
@@ -44,6 +46,13 @@ router.post('/photo',
     auth,
     uploadMiddleware.single('photo'),
     async (req, res) => await addProfilePhotoController.execute(req, res))
+
+// Notifications
+router.put('/notifications', auth,
+    async (req, res) => await readNotificationController.execute(req, res)) // Read notifications
+router.get('/notifications', auth,
+    async (req, res) => await listNotifications.execute(req, res))
+
 
 // Term routes
 router.get('/term/:id', auth,

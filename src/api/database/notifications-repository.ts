@@ -59,8 +59,8 @@ export class PrismaNotificationsRepository implements NotificationsRepository {
         await prisma.notificationFiles.deleteMany({ where: { notificationId: id } })
         await prisma.notifications.delete({ where: { id } })
     }
-    async findAll(page: number): Promise<Notification[]> {
-        const { skip, take } = databasePagination(page)
+    async findAll(page: number, limit?: number): Promise<Notification[]> {
+        const { skip, take } = databasePagination(page, limit)
         const dbNotifications = await prisma.notifications.findMany({
             skip,
             take,

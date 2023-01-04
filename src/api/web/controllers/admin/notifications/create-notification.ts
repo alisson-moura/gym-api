@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { CreateNotification } from "../../../../../modules/admin/Notifications/create-notification";
+import { PrismaClientRepository } from "../../../../database/client-repository";
 import { PrismaNotificationsRepository } from "../../../../database/notifications-repository";
 import { BaseController } from "../../base-controller";
 
@@ -12,7 +13,7 @@ class CreateNotificationController extends BaseController {
             data.files = files.map(file => file.filename)
         }
 
-        const service = new CreateNotification(new PrismaNotificationsRepository())
+        const service = new CreateNotification(new PrismaNotificationsRepository(), new PrismaClientRepository())
         const result = await service.execute(data)
 
         return this.ok(res, result)

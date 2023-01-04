@@ -6,8 +6,8 @@ import { CreateAccountDTO } from "../modules/clients/dtos/create-client-dto";
 import { UpdateAccountDTO } from "../modules/clients/dtos/update-account-dto";
 
 export interface ClientRepository {
-    all:(page: number) => Promise<Client[]>
-    findAllByName:(page: number, name: string) => Promise<Client[]>
+    all: (page: number) => Promise<Client[]>
+    findAllByName: (page: number, name: string) => Promise<Client[]>
     findByEmail: (email: string) => Promise<Client | undefined>
     findByBadge: (badge: number) => Promise<Client | undefined>
     findById: (data: { id: number, password: boolean }) => Promise<Client | undefined>
@@ -16,4 +16,7 @@ export interface ClientRepository {
     updatePassword: (data: UpdatePasswordDTO) => Promise<Client>
     acceptTerm: (data: AcceptTermDTO) => Promise<void>
     updatePhoto: (data: AddPhotoDTO) => Promise<void>
+    unreadNotificationByAll: () => Promise<void>
+    unreadNotificationById: (id: number) => Promise<void>
+    readNotificationById: (id: number) => Promise<void>
 }

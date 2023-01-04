@@ -40,23 +40,24 @@ model Admin {
 }
 
 model Client {
-  id          Int           @id @default(autoincrement())
-  name        String        @db.VarChar(255)
-  email       String        @unique @db.VarChar(255)
-  password    String        @db.VarChar(255)
-  gender      String        @db.VarChar(1)
-  status      String        @default("active")
-  termId      Int?
-  termStatus  String        @default("pending")
-  badge       Int           @default(0) @db.Integer
-  photo       String?       @db.VarChar(255)
-  comments    String?       @db.VarChar(255)
-  birthDate   DateTime?     @db.Timestamp(6)
-  height      Int?          @default(0)
-  weight      Float?        @default(0)
-  company     String?
-  Appointment Appointment[]
-  term        Term?         @relation(fields: [termId], references: [id])
+  id                 Int           @id @default(autoincrement())
+  name               String        @db.VarChar(255)
+  email              String        @unique @db.VarChar(255)
+  password           String        @db.VarChar(255)
+  gender             String        @db.VarChar(1)
+  status             String        @default("active")
+  termId             Int?
+  termStatus         String        @default("pending")
+  notificationStatus String        @default("read")
+  badge              Int           @default(0) @db.Integer
+  photo              String?       @db.VarChar(255)
+  comments           String?       @db.VarChar(255)
+  birthDate          DateTime?     @db.Timestamp(6)
+  height             Int?          @default(0)
+  weight             Float?        @default(0)
+  company            String?
+  Appointment        Appointment[]
+  term               Term?         @relation(fields: [termId], references: [id])
 }
 
 model Appointment {
