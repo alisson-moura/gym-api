@@ -19,7 +19,7 @@ export class PrismaNotificationsRepository implements NotificationsRepository {
         notification.title = data.title
 
         if (data.files) {
-            notification.files = data.files.map(file =>`${process.env.IMAGES_URL}/${file.file}`)
+            notification.files = data.files.map(file => file.file)
         }
 
         return notification
@@ -65,7 +65,7 @@ export class PrismaNotificationsRepository implements NotificationsRepository {
             skip,
             take,
             orderBy: {
-                createdAt: 'asc'
+                createdAt: 'desc'
             },
             include: {
                 files: true
