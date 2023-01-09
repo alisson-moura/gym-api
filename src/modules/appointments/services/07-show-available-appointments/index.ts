@@ -25,7 +25,7 @@ export class ShowAvailableAppointments implements UseCase<Request, Response> {
         }
 
         const schedule = new Schedule()
-        const appoitments = await this.appointmentRepository.findAll(date)
+        const appoitments = await this.appointmentRepository.findAll(date, 'Pendente')
         const appLimit = schedule.hours.map(h => ({ hour: h, amount: 0 }))
 
         appoitments.forEach(app => {

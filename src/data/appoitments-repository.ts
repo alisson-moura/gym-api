@@ -8,6 +8,6 @@ export interface AppoitmentRepository {
     confirm: (data: { id: number }) => Promise<Appointment>
     pending: (data: { id: number }) => Promise<Appointment>
     findByClientId: (id: number) => Promise<Appointment[]>
-    findAll: (date: Date) => Promise<Appointment[]>
+    findAll: (date: Date, status?: string) => Promise<Appointment[]>
     delete: (id: number) => Promise<void>
 }
