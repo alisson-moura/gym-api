@@ -9,6 +9,7 @@ import { DateSchema } from "./date";
 import { NewAppointmentSchema } from "./new-appointment";
 import { PaginationSchema } from "./pagination";
 import { UpdateAccountSchema } from "./update-account";
+import { UpdateClientSchema } from "./update-client";
 import { UpdateExerciseSchema } from "./update-exercise";
 
 const Schemas:any = {
@@ -23,7 +24,8 @@ const Schemas:any = {
     CreateAdminSessionSchema,
     PaginationSchema,
     UpdateExerciseSchema,
-    CreateNotificationSchema
+    CreateNotificationSchema,
+    UpdateClientSchema
 }
 
 export default Schemas

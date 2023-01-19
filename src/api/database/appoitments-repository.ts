@@ -2,6 +2,7 @@ import { prisma } from '.';
 import { AppoitmentRepository } from '../../data/appoitments-repository';
 import { Appointment } from '../../models/appointment';
 import { CreateAppointmentDTO } from '../../modules/appointments/dtos/create-appointment-dto';
+import { PrismaClientRepository } from './client-repository';
 
 export class PrismaAppointmentRepository implements AppoitmentRepository {
     async delete(id: number): Promise<void> {
@@ -60,6 +61,20 @@ export class PrismaAppointmentRepository implements AppoitmentRepository {
         })
         return appointment
     }
+    public static mapper(data: any): Appointment {
+        const appointment = new Appointment()
+        appointment.id = data.id
+        appointment.client = PrismaClientRepository.mapper({data: data.client})
+        appointment.canceledAt = data.canceledAt
+        appointment.comments = data.comments
+        appointment.confirmedIn = data.confirmedIn
+        appointment.createdAt = data.createdAt
+        appointment.date = data.date
+        appointment.hour = data.hour
+        appointment.status = data.status
+        return appointment
+    }
+
     async findAll(date: Date, status?: string): Promise<Appointment[]> {
         const startDay = new Date(date)
         startDay.setHours(0, 0, 0, 0)
@@ -77,13 +92,17 @@ export class PrismaAppointmentRepository implements AppoitmentRepository {
                     }
                 },
                 include: {
-                    client: true
+                    client: {
+                        include: {
+                            group: true
+                        }
+                    }
                 },
                 orderBy: {
                     hour: 'asc'
                 }
             })
-            return appointments
+            return appointments.map(item => PrismaAppointmentRepository.mapper(item))
         }
         const appointments = await prisma.appointment.findMany({
             where: {
@@ -99,7 +118,7 @@ export class PrismaAppointmentRepository implements AppoitmentRepository {
                 hour: 'asc'
             }
         })
-        return appointments
+        return appointments.map(item => PrismaAppointmentRepository.mapper(item))
     }
     async findByClientId(id: number): Promise<Appointment[]> {
         const appointments = await prisma.appointment.findMany({ where: { clientId: id }, orderBy: { date: 'desc' } })

@@ -1,8 +1,9 @@
-export interface UpdateAccountDTO {
+export interface UpdateClientDTO {
     id: number
-    name: string;
-    email: string;
+    name: string
+    email: string
     gender: string
+    group: string
     badge?: number
     photo?: string
     birthDate?:string
@@ -10,5 +11,4 @@ export interface UpdateAccountDTO {
     height?: number
     weight?: number
     company?: string
-    group?: string
 }

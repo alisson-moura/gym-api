@@ -21,6 +21,7 @@ import { validator } from './middlewares/validator'
 import createNotification from './controllers/admin/notifications/create-notification'
 import listNotifications from './controllers/admin/notifications/list-notifications'
 import deleteNotifications from './controllers/admin/notifications/delete-notifications'
+import updateClient from './controllers/admin/clients/update-client'
 
 const adminRouter = Router()
 
@@ -29,14 +30,6 @@ adminRouter.post('/signin',
     validator('CreateAdminSessionSchema'),
     async (req, res) => await createSession.execute(req, res))
 
-
-adminRouter.get('/clients', auth,
-    validator('PaginationSchema'),
-    async (req, res) => listClients.execute(req, res))
-adminRouter.put('/reset-password/:id', auth,
-    async (req, res) => resetPassword.execute(req, res))
-adminRouter.get('/clients/:id/appointments', auth,
-    async (req, res) => listClientAppointments.execute(req, res))
 adminRouter.get('/appointments', auth,
     validator('DateSchema'),
     async (req, res) => listAppointments.execute(req, res))
@@ -52,6 +45,20 @@ adminRouter.get('/profile', auth,
     async (req, res) => showProfile.execute(req, res))
 adminRouter.get('/statistics', auth,
     async (req, res) => showStatistics.execute(req, res))
+
+/**
+ * Rotas de alunos
+ */
+adminRouter.get('/clients', auth,
+    validator('PaginationSchema'),
+    async (req, res) => listClients.execute(req, res))
+adminRouter.put('/reset-password/:id', auth,
+    async (req, res) => resetPassword.execute(req, res))
+adminRouter.put('/clients', auth,
+    validator('UpdateClientSchema'),
+    async (req, res) => updateClient.execute(req, res))
+adminRouter.get('/clients/:id/appointments', auth,
+    async (req, res) => listClientAppointments.execute(req, res))
 
 /**
  * Rotas de exercicios

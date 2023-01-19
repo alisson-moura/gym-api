@@ -1,9 +1,12 @@
+import { Group } from "./Group"
+
 export class Client {
     id?: number | null
     name: string
     email: string
     password?: string
     badge: number
+    group: Group
     photo?: string | null
     comments?: string | null
     birthDate?: Date | null

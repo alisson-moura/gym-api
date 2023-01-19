@@ -39,6 +39,15 @@ model Admin {
   isAdmin  Boolean @default(true)
 }
 
+model Groups {
+  id          Int     @id @default(autoincrement())
+  name        String  @db.VarChar(255)
+  description String? @db.VarChar(140)
+  isPaying    Boolean @default(true)
+
+  clients Client[]
+}
+
 model Client {
   id                 Int           @id @default(autoincrement())
   name               String        @db.VarChar(255)
@@ -58,6 +67,9 @@ model Client {
   company            String?
   Appointment        Appointment[]
   term               Term?         @relation(fields: [termId], references: [id])
+  groupId            Int?
+
+  group Groups? @relation(fields: [groupId], references: [id])
 }
 
 model Appointment {

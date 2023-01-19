@@ -3,37 +3,90 @@ import { EncrypterProvider } from '../../src/api/providers/EncrypterProvider'
 
 const prisma = new PrismaClient()
 
-async function main() {
-    const encrypter = new EncrypterProvider()
-    const defaultAdminPassword = 'admin@123'
-
-    await prisma.admin.deleteMany() // clear prev userAdmin
-    const hash = encrypter.encrypt(defaultAdminPassword)
-
-    await prisma.admin.create({
-        data: {
-            login: 'admin',
-            password: hash
-        }
+async function insertGroups() {
+    const existGroups = await prisma.groups.findMany()
+    if (existGroups.length > 0) {
+        return
+    }
+    await prisma.groups.createMany({
+        data: [
+            { name: 'Mensalistas', description: 'Grupo de alunos que pagam mensalidades.', isPaying: true },
+            { name: 'Bolsistas', description: 'Grupo de alunos que são isentos da mensalidade.', isPaying: false }
+        ]
     })
-    await prisma.term.updateMany({
-        data: {
-            isActive: false
-        }
+
+    const group = await prisma.groups.findFirst({ where: { name: 'Mensalistas' } })
+    if (group) {
+        await prisma.client.updateMany({
+            data: {
+                groupId: group.id
+            }
+        })
+    }
+}
+
+async function insertMuscleGroups() {
+    const items = await prisma.muscleGroup.findMany()
+    if (items.length > 0) {
+        return
+    }
+    await prisma.muscleGroup.createMany({
+        data: [
+            { name: 'Costas', banner: 'https://cdn.vidaativa.pt/uploads/2018/09/treino-costas.jpg' }, { name: 'Braços', banner: 'https://gooutside.com.br/wp-content/uploads/sites/3/2020/03/exercicios-para-bracos-1280x720.jpg' }, { name: 'Ombros', banner: 'https://lirp.cdn-website.com/cbc52636/dms3rep/multi/opt/treino-ombro-dr-guilherme-noffs-ortopedista-ombro-sao-paulo-1920w.jpg' }, { name: 'Pernas', banner: 'https://739028l.ha.azioncdn.net/img/2022/05/blog/8702/treino-de-pernas-para-homens.jpg' }, { name: 'Peito', banner: 'https://blog.gsuplementos.com.br/wp-content/uploads/2021/01/iStock-1028273740.jpg' }
+        ]
     })
-    const term = await prisma.term.create({
+}
+
+async function insertTerm(data?: { title: string, text: string }) {
+    if (data != undefined) {
+        await prisma.term.updateMany({
+            data: {
+                isActive: false
+            }
+        })
+        await prisma.term.create({
+            data: {
+                title: data.title,
+                text: data.text
+            }
+        })
+        return
+    }
+
+    const term = await prisma.term.findMany({ where: { isActive: true } })
+    if (term.length > 0) {
+        return
+    }
+
+    await prisma.term.create({
         data: {
             title: "Termo de Responsabilidade  para Prática de Atividade Física",
             text: "Estou ciente de que me foi recomendado conversar com um médico antes de iniciar exercícios de ativade física. Assumo plena responsabilidade por qualquer atividade física praticada sem o atendimento a essa recomendação e isento a FUNFARME, bem como todos diretamente envolvidos no desenvolvimento das atividades oferecidas e praticas por mim, de toda e qualquer responsabilidade por danos a minha saúde ou qualquer outra espécie, que eventualmente possam ser causados."
         }
     })
+}
 
-    await prisma.guidelines.updateMany({
-        data: {
-            isActive: false
-        }
-    })
-    const guide = await prisma.guidelines.create({
+async function insertGuideLines(data?: { title: string, text: string }) {
+    if (data != undefined) {
+        await prisma.guidelines.updateMany({
+            data: {
+                isActive: false
+            }
+        })
+        await prisma.guidelines.create({
+            data: {
+                title: data.title,
+                text: data.text
+            }
+        })
+        return
+    }
+
+    const guides = await prisma.guidelines.findMany({ where: { isActive: true } })
+    if (guides.length > 0) {
+        return
+    }
+    await prisma.guidelines.create({
         data: {
             title: "NORMAS DE FUNCIONAMENTO DA ACADEMIA",
             text: `Público alvo: colaboradores FUNFARME, profissionais e alunos Famerp; 
@@ -48,13 +101,26 @@ async function main() {
             Acompanhantes: Não é permitido a entrada de acompanhantes (familiares, amigos ou personal trainer)`
         }
     })
+}
 
-    await prisma.muscleGroup.deleteMany()
-    await prisma.muscleGroup.createMany({
-        data: [
-            { name: 'Costas', banner: 'https://cdn.vidaativa.pt/uploads/2018/09/treino-costas.jpg' }, { name: 'Braços', banner: 'https://gooutside.com.br/wp-content/uploads/sites/3/2020/03/exercicios-para-bracos-1280x720.jpg' },  { name: 'Ombros', banner: 'https://lirp.cdn-website.com/cbc52636/dms3rep/multi/opt/treino-ombro-dr-guilherme-noffs-ortopedista-ombro-sao-paulo-1920w.jpg' }, { name: 'Pernas', banner: 'https://739028l.ha.azioncdn.net/img/2022/05/blog/8702/treino-de-pernas-para-homens.jpg' }, { name: 'Peito', banner: 'https://blog.gsuplementos.com.br/wp-content/uploads/2021/01/iStock-1028273740.jpg' }
-        ]
+async function main() {
+    const encrypter = new EncrypterProvider()
+    const defaultAdminPassword = 'admin@123'
+
+    await prisma.admin.deleteMany() // clear prev userAdmin
+    const hash = encrypter.encrypt(defaultAdminPassword)
+
+    await prisma.admin.create({
+        data: {
+            login: 'admin',
+            password: hash
+        }
     })
+
+    await insertGroups()
+    await insertTerm()
+    await insertGuideLines()
+    await insertMuscleGroups()
 }
 
 main()
