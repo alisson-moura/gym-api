@@ -7,6 +7,7 @@ import createAccountController from './controllers/create-account-controller'
 import createSessionController from './controllers/create-session-controller'
 import healthController from './controllers/health-controller'
 import listNotifications from './controllers/list-notifications'
+import listPaymentsController from './controllers/list-payments-controller'
 import newAppointmentController from './controllers/new-appointment-controller'
 import readNotificationController from './controllers/read-notification-controller'
 import showAvailableGuideline from './controllers/show-available-guideline'
@@ -85,5 +86,9 @@ router.put('/cancel-appointment', auth,
 router.put('/confirm-appointment', auth,
     validator('ConfirmAppointmentSchema'),
     async (req, res) => await confirmAppointmentController.execute(req, res))
+
+// Rota de pagamentos
+router.get('/payments', auth, async (req, res) => await listPaymentsController.execute(req, res))
+
 
 export default router
