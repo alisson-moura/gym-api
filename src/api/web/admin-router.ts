@@ -22,6 +22,7 @@ import createNotification from './controllers/admin/notifications/create-notific
 import listNotifications from './controllers/admin/notifications/list-notifications'
 import deleteNotifications from './controllers/admin/notifications/delete-notifications'
 import updateClient from './controllers/admin/clients/update-client'
+import registerPayment from './controllers/admin/payments/register-payment'
 
 const adminRouter = Router()
 
@@ -94,6 +95,13 @@ adminRouter.get('/notifications', auth,
 adminRouter.delete('/notifications/:id', auth,
     async (req, res) => deleteNotifications.execute(req, res))
 
+
+/**
+ * Rotas de pagamentos 
+*/
+adminRouter.post('/payments', auth,
+    validator('RegisterPaymentSchema'),
+    async (req, res) => registerPayment.execute(req, res))
 
 
 export default adminRouter

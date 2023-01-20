@@ -69,7 +69,8 @@ model Client {
   term               Term?         @relation(fields: [termId], references: [id])
   groupId            Int?
 
-  group Groups? @relation(fields: [groupId], references: [id])
+  group    Groups?    @relation(fields: [groupId], references: [id])
+  Payments Payments[]
 }
 
 model Appointment {
@@ -117,4 +118,21 @@ model NotificationFiles {
   file           String
   notificationId Int
   notification   Notifications @relation(fields: [notificationId], references: [id])
+}
+
+model MonthlyPayment {
+  id        Int      @id @default(autoincrement())
+  value     Float
+  updatedAt DateTime @default(now())
+}
+
+model Payments {
+  id         Int      @id @default(autoincrement())
+  value      Float
+  month      DateTime
+  cardNumber String
+  clientId   Int
+  createdAt  DateTime @default(now())
+
+  client Client @relation(fields: [clientId], references: [id])
 }
