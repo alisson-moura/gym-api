@@ -6,6 +6,7 @@ import { CreateExerciseSchema } from "./create-exercise";
 import { CreateNotificationSchema } from "./create-notification";
 import { CreateSessionSchema } from "./create-session";
 import { DateSchema } from "./date";
+import { ListPaymentstSchema } from "./list-payments";
 import { NewAppointmentSchema } from "./new-appointment";
 import { PaginationSchema } from "./pagination";
 import { RegisterPaymentSchema } from "./register-appointment";
@@ -27,7 +28,8 @@ const Schemas:any = {
     UpdateExerciseSchema,
     CreateNotificationSchema,
     UpdateClientSchema,
-    RegisterPaymentSchema
+    RegisterPaymentSchema,
+    ListPaymentstSchema
 }
 
 export default Schemas

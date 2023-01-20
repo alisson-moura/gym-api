@@ -3,6 +3,8 @@ import { Client, Groups, Payments } from '@prisma/client';
 import { PaymentsRepository } from '../../data/payments-repository';
 import { Payment } from '../../models/Payment';
 import { PrismaClientRepository } from './client-repository';
+import { databasePagination } from './pagination';
+import { group } from 'console';
 
 export class PrismaPaymentRepository implements PaymentsRepository {
     private mapper(data: Payments & {
@@ -61,5 +63,58 @@ export class PrismaPaymentRepository implements PaymentsRepository {
             }
         })
         return this.mapper(result)
+    }
+
+    async findByClient({ clientId, page }:
+        { clientId: number; page: number; }):
+        Promise<{ payments: Payment[]; total: number; }> {
+        const { skip, take } = databasePagination(page)
+        const total = await prisma.payments.count({ where: { clientId } })
+
+        const result = await prisma.payments.findMany({
+            where: { clientId },
+            take,
+            skip,
+            orderBy: {
+                month: 'desc'
+            },
+            include: { client: { include: { group: true } } }
+        })
+
+        const payments = result.map(r => this.mapper(r))
+        return { payments, total }
+
+    }
+    
+    async findByBadge({ badge, page }: { badge: number; page: number; }): Promise<{ payments: Payment[]; total: number; }> {
+        const { skip, take } = databasePagination(page)
+        const total = await prisma.payments.count({ where: { client: { badge } } })
+
+        const result = await prisma.payments.findMany({
+            where: { client: { badge } },
+            take,
+            skip,
+            orderBy: { month: 'desc' },
+            include: { client: { include: { group: true } } }
+        })
+
+        const payments = result.map(r => this.mapper(r))
+        return { payments, total }
+    }
+
+    async findByMonth({ month, page }: { month: Date; page: number; }): Promise<{ payments: Payment[]; total: number; }> {
+        const { skip, take } = databasePagination(page)
+        const total = await prisma.payments.count({ where: { month } })
+
+        const result = await prisma.payments.findMany({
+            where: { month },
+            take,
+            skip,
+            orderBy: { month: 'desc' },
+            include: { client: { include: { group: true } } }
+        })
+
+        const payments = result.map(r => this.mapper(r))
+        return { payments, total }
     }
 }
