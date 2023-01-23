@@ -79,22 +79,7 @@ export class PrismaClientRepository implements ClientRepository {
             }
         })
 
-        const data = clients.map(client => {
-            const item = new Client()
-            item.id = client.id
-            item.badge = client.badge
-            item.birthDate = client.birthDate
-            item.comments = client.comments
-            item.company = client.company
-            item.email = client.email
-            item.group = new Group({
-                description: client.group!.description,
-                id: client.group!.id,
-                name: client.group!.name,
-                isPaying: client.group!.isPaying
-            })
-            return item
-        })
+        const data = clients.map(client => PrismaClientRepository.mapper({ data: client }))
 
         return data
     }
@@ -190,7 +175,7 @@ export class PrismaClientRepository implements ClientRepository {
             })
         }
 
-        const user = await prisma.client.findFirst({where: {id: data.id }})
+        const user = await prisma.client.findFirst({ where: { id: data.id } })
         const updateUser = await prisma.client.update({
             where: {
                 id: data.id

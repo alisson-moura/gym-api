@@ -41,7 +41,6 @@ export class ListPaymentsService implements UseCase<Request, Response> {
 
         if (month) {
             const date = this.dateProvider.dateByMonthAndYear({ month: month.getMonth(), year: month.getFullYear() })
-            console.log(date)
             const { payments, total } = await this.paymentRepository.findByMonth({ month: date, page })
             return { payments, page, total }
         }
