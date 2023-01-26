@@ -102,7 +102,8 @@ export class PrismaClientRepository implements ClientRepository {
 
     async create(data: CreateAccountDTO): Promise<void> {
         const lastTerm = await prisma.term.findFirst({ where: { isActive: true } })
-        if (lastTerm) {
+        const group = await prisma.groups.findFirst({ where: { name: 'Mensalistas' } })
+        if (lastTerm && group) {
             await prisma.client.create({
                 data: {
                     email: data.email,
@@ -111,7 +112,8 @@ export class PrismaClientRepository implements ClientRepository {
                     password: data.password,
                     badge: data.badge,
                     termId: lastTerm.id,
-                    company: data.company
+                    company: data.company,
+                    groupId: group.id
                 }
             })
             return
