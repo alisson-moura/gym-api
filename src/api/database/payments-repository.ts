@@ -4,7 +4,6 @@ import { PaymentsRepository } from '../../data/payments-repository';
 import { Payment } from '../../models/Payment';
 import { PrismaClientRepository } from './client-repository';
 import { databasePagination } from './pagination';
-import { group } from 'console';
 
 export class PrismaPaymentRepository implements PaymentsRepository {
     private mapper(data: Payments & {
