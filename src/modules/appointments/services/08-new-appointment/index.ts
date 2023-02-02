@@ -75,7 +75,14 @@ export class NewAppointment implements UseCase<CreateAppointmentDTO, Response> {
             return new AppError('Existe um agendamento pendente para este aluno(a).')
         }
 
-        if (pendingClientAppointments.some(item => this.dateProvider.differenceInHours(appointmentDay, item.date) <= 48))
+        const completedAppointmentsOnDay = clientAppointments.filter(item => item.status == 'Concluído')
+            .some(item => {
+                item.date.setHours(item.hour)
+                return this.dateProvider.sameDay(item.date, appointmentDay)
+            })
+
+
+        if (pendingClientAppointments.some(item => this.dateProvider.differenceInHours(appointmentDay, item.date) <= 48) || completedAppointmentsOnDay)
             return new AppError('Aluno(a) não está habilitado para fazer novos agendamentos.')
 
         date.setHours(0, 0, 0)
