@@ -6,6 +6,7 @@ import { PrismaClientRepository } from './client-repository';
 import { databasePagination } from './pagination';
 
 export class PrismaPaymentRepository implements PaymentsRepository {
+
     private mapper(data: Payments & {
         client: Client & {
             group: Groups | null;
@@ -84,7 +85,7 @@ export class PrismaPaymentRepository implements PaymentsRepository {
         return { payments, total }
 
     }
-    
+
     async findByBadge({ badge, page }: { badge: number; page: number; }): Promise<{ payments: Payment[]; total: number; }> {
         const { skip, take } = databasePagination(page)
         const total = await prisma.payments.count({ where: { client: { badge } } })
@@ -115,5 +116,21 @@ export class PrismaPaymentRepository implements PaymentsRepository {
 
         const payments = result.map(r => this.mapper(r))
         return { payments, total }
+    }
+
+    async searchForPeriod({ startDate, endDate }: { startDate: Date; endDate: Date; }): Promise<Payment[]> {
+        const result = await prisma.payments.findMany({
+            where: {
+                createdAt: {
+                    lte: endDate,
+                    gte: startDate
+                }
+            },
+            orderBy: { createdAt: 'asc' },
+            include: { client: { include: { group: true } } }
+        })
+
+        const payments = result.map(r => this.mapper(r))
+        return payments
     }
 }

@@ -35,4 +35,9 @@ export interface DateProvider {
    * Sets time values to date from object values. A value is not set if it is undefined or null or doesn't exist in values.
    */
   setDate: ({ day, month, year }: { day?: number, year?: number, month?: number }) => Date
+  /**
+  * @description Set time values to a given date.
+  * Sets time values to date from object values. A value is not set if it is undefined or null or doesn't exist in values.
+  */
+  addOneDay: (date: Date) => Date
 }

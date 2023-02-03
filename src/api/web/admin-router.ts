@@ -24,6 +24,7 @@ import deleteNotifications from './controllers/admin/notifications/delete-notifi
 import updateClient from './controllers/admin/clients/update-client'
 import registerPayment from './controllers/admin/payments/register-payment'
 import listPayments from './controllers/admin/payments/list-payments'
+import paymentReport from './controllers/admin/payments/payment-report'
 
 const adminRouter = Router()
 
@@ -106,6 +107,8 @@ adminRouter.post('/payments', auth,
 adminRouter.get('/payments', auth,
     validator('ListPaymentstSchema'),
     async (req, res) => listPayments.execute(req, res))
+adminRouter.get('/payments/reports', auth,
+    async (req, res) => paymentReport.execute(req, res))
 
 
 export default adminRouter

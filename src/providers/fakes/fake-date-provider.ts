@@ -1,6 +1,7 @@
 import { DateProvider } from "../Date";
 
 export class FakeDateProvider implements DateProvider {
+    addOneDay: (date: Date) => Date;
     prevMonth: (month: Date) => Date;
     setDate: ({ day, month, year }: { day?: number | undefined; year?: number | undefined; month?: number | undefined; }) => Date;
     dateByMonthAndYear: ({ month, year }: { month: number; year: number; }) => Date;
