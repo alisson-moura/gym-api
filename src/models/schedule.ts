@@ -10,7 +10,7 @@ export class Schedule {
         this.hours = [6, 7, 8, 09, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
         this.limit = 20
         this.duration = '01:00'
-        this.start = '07:00'
-        this.end = '20:00'
+        this.start = '06:00'
+        this.end = '21:00'
     }
 }
