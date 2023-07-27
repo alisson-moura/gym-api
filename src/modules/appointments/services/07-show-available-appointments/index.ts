@@ -24,6 +24,11 @@ export class ShowAvailableAppointments implements UseCase<Request, Response> {
             return new AppError('Data fornecida é inválida.')
         }
 
+        // academia em reforma nesse dia, remover  após 1 de agosto
+        if(this.dateProvider.sameDay(date, this.dateProvider.setDate({day: 27, month: 6, year: 2023}))) {
+            return new AppError('Data fornecida é inválida.')
+        }
+
         const schedule = new Schedule()
         const appoitments = await this.appointmentRepository.findAll(date, 'Pendente')
         const appLimit = schedule.hours.map(h => ({ hour: h, amount: 0 }))
