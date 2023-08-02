@@ -9,6 +9,7 @@ export class InMemoryAppointmentRepository implements AppoitmentRepository {
     constructor(appoitments: Appointment[] = []) {
         this.appointments = appoitments
     }
+    report: (data: { startDate: Date; endDate: Date; }) => Promise<Appointment[]>;
     pending: (data: { id: number; }) => Promise<Appointment>;
     delete: (id: number) => Promise<void>;
     confirm: (data: { id: number; }) => Promise<Appointment>;

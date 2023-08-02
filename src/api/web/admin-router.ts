@@ -25,6 +25,7 @@ import updateClient from './controllers/admin/clients/update-client'
 import registerPayment from './controllers/admin/payments/register-payment'
 import listPayments from './controllers/admin/payments/list-payments'
 import paymentReport from './controllers/admin/payments/payment-report'
+import appointmentsReport from './controllers/admin/appointments-report'
 
 const adminRouter = Router()
 
@@ -40,6 +41,10 @@ adminRouter.delete('/appointments/:id', auth,
     async (req, res) => deleteAppointment.execute(req, res))
 adminRouter.patch('/appointments/:id', auth,
     async (req, res) => updateStatusAppointment.execute(req, res))
+adminRouter.get('/appointments/reports', auth,
+    async (req, res) => appointmentsReport.execute(req, res))
+
+
 adminRouter.post('/presence-token', auth,
     async (req, res) => createPresenceToken.execute(req, res))
 adminRouter.get('/presence-token', auth,

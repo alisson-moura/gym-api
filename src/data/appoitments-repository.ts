@@ -10,4 +10,5 @@ export interface AppoitmentRepository {
     findByClientId: (id: number) => Promise<Appointment[]>
     findAll: (date: Date, status?: string) => Promise<Appointment[]>
     delete: (id: number) => Promise<void>
+    report:(data: {startDate: Date, endDate: Date}) => Promise<Appointment[]>
 }

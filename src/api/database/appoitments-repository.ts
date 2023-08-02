@@ -64,7 +64,7 @@ export class PrismaAppointmentRepository implements AppoitmentRepository {
     public static mapper(data: any): Appointment {
         const appointment = new Appointment()
         appointment.id = data.id
-        appointment.client = PrismaClientRepository.mapper({data: data.client})
+        appointment.client = PrismaClientRepository.mapper({ data: data.client })
         appointment.canceledAt = data.canceledAt
         appointment.comments = data.comments
         appointment.confirmedIn = data.confirmedIn
@@ -120,8 +120,28 @@ export class PrismaAppointmentRepository implements AppoitmentRepository {
         })
         return appointments.map(item => PrismaAppointmentRepository.mapper(item))
     }
+    
     async findByClientId(id: number): Promise<Appointment[]> {
         const appointments = await prisma.appointment.findMany({ where: { clientId: id }, orderBy: { date: 'desc' } })
         return appointments
+    }
+
+    async report(data: { startDate: Date; endDate: Date; }): Promise<Appointment[]>{
+        const start = data.startDate
+        start.setHours(0, 0, 0, 0)
+        const end = data.endDate
+        end.setHours(23, 59, 59, 0)
+
+        const appointments = await prisma.appointment.findMany({
+            where: {
+                date: {
+                    gte: start,
+                    lte: end
+                },
+            },
+            include: { client: true }
+        })
+
+        return appointments.map(item => PrismaAppointmentRepository.mapper(item))
     }
 }
