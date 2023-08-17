@@ -52,15 +52,42 @@ export class PrismaAppointmentRepository implements AppoitmentRepository {
         return undefined
     }
     async create(data: CreateAppointmentDTO): Promise<Appointment> {
-        const appointment = await prisma.appointment.create({
-            data: {
-                date: data.date,
-                clientId: data.clientId,
-                hour: data.hour
+        const tr = await prisma.$transaction(async (tx) => {
+            const { date, clientId, hour } = data
+            
+            const startDay = new Date(date)
+            startDay.setHours(0, 0, 0, 0)
+            const endDay = new Date(date)
+            endDay.setHours(23, 59, 59, 0)
+
+            const count = await prisma.appointment.count({
+                where: {
+                    hour: hour,
+                    status: 'Pendente',
+                    date: {
+                        gte: startDay,
+                        lt: endDay
+                    }
+                }
+            })
+
+            if (count > 20) {
+                throw new Error('Horário não está disponível')
             }
+
+            const appointment = await prisma.appointment.create({
+                data: {
+                    date: date,
+                    clientId: clientId,
+                    hour: hour
+                }
+            })
+            return appointment
         })
-        return appointment
+
+        return tr
     }
+
     public static mapper(data: any): Appointment {
         const appointment = new Appointment()
         appointment.id = data.id
@@ -133,7 +160,7 @@ export class PrismaAppointmentRepository implements AppoitmentRepository {
             })
             return appointments.map(item => PrismaAppointmentRepository.mapper(item))
         }
-        
+
         const appointments = await prisma.appointment.findMany({
             where: {
                 date: {
