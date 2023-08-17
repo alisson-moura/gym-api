@@ -35,26 +35,30 @@ export class NewAppointment implements UseCase<CreateAppointmentDTO, Response> {
 
         // get available hours for new appoitments
         const schedule = new Schedule()
-        let appoitments = await this.appointmentRepository.findAll(date)
-        appoitments = appoitments.filter(appoitment => appoitment.status == 'Pendente')
-        const appLimit = schedule.hours.map(h => ({ hour: h, amount: 0 }))
-        appoitments.forEach(app => {
-            const hour = app.hour
-            const index = appLimit.findIndex(al => al.hour == hour)
-            appLimit[index].amount += 1
-        })
-
-        const availableHours = appLimit
-            .filter(al => {
-                const availableSameDay = this.dateProvider.sameDay(day, appointmentDay) && al.amount < schedule.limit && al.hour > appointmentDay.getHours()
-                const availableOnFutureDay = al.amount < schedule.limit
-
-                return availableSameDay || availableOnFutureDay
-            })
-            .map(al => al.hour)
-        if (!availableHours.includes(hour)) {
+        let appoitments = await this.appointmentRepository.findAll(date, 'Pendente', hour)
+        if (appoitments.length >= schedule.limit) {
             return new AppError('Horário não disponível para agendamento.')
         }
+
+        /*  appoitments = appoitments.filter(appoitment => appoitment.status == 'Pendente')
+         const appLimit = schedule.hours.map(h => ({ hour: h, amount: 0 }))
+         appoitments.forEach(app => {
+             const hour = app.hour
+             const index = appLimit.findIndex(al => al.hour == hour)
+             appLimit[index].amount += 1
+         })
+ 
+         const availableHours = appLimit
+             .filter(al => {
+                 const availableSameDay = this.dateProvider.sameDay(day, appointmentDay) && al.amount < schedule.limit && al.hour > appointmentDay.getHours()
+                 const availableOnFutureDay = al.amount < schedule.limit
+ 
+                 return availableSameDay || availableOnFutureDay
+             })
+             .map(al => al.hour)
+         if (!availableHours.includes(hour)) {
+             return new AppError('Horário não disponível para agendamento.')
+         } */
 
         // verifica o id do cliente
         const client = await this.clientRepository.findById({ id: clientId, password: false })

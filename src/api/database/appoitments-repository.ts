@@ -75,11 +75,40 @@ export class PrismaAppointmentRepository implements AppoitmentRepository {
         return appointment
     }
 
-    async findAll(date: Date, status?: string): Promise<Appointment[]> {
+    async findAll(date: Date, status?: string, hour?: number): Promise<Appointment[]> {
         const startDay = new Date(date)
         startDay.setHours(0, 0, 0, 0)
         const endDay = new Date(date)
         endDay.setHours(23, 59, 59, 0)
+
+        if (status && hour) {
+            const appointments = await prisma.appointment.findMany({
+                where: {
+                    date: {
+                        gte: startDay,
+                        lt: endDay
+                    },
+                    status: {
+                        equals: status
+                    },
+                    hour: {
+                        equals: hour
+                    }
+                },
+                include: {
+                    client: {
+                        include: {
+                            group: true
+                        }
+                    }
+                },
+                orderBy: {
+                    hour: 'asc'
+                }
+            })
+            return appointments.map(item => PrismaAppointmentRepository.mapper(item))
+        }
+
         if (status) {
             const appointments = await prisma.appointment.findMany({
                 where: {
@@ -104,6 +133,7 @@ export class PrismaAppointmentRepository implements AppoitmentRepository {
             })
             return appointments.map(item => PrismaAppointmentRepository.mapper(item))
         }
+        
         const appointments = await prisma.appointment.findMany({
             where: {
                 date: {
@@ -120,13 +150,13 @@ export class PrismaAppointmentRepository implements AppoitmentRepository {
         })
         return appointments.map(item => PrismaAppointmentRepository.mapper(item))
     }
-    
+
     async findByClientId(id: number): Promise<Appointment[]> {
         const appointments = await prisma.appointment.findMany({ where: { clientId: id }, orderBy: { date: 'desc' } })
         return appointments
     }
 
-    async report(data: { startDate: Date; endDate: Date; }): Promise<Appointment[]>{
+    async report(data: { startDate: Date; endDate: Date; }): Promise<Appointment[]> {
         const start = data.startDate
         start.setHours(0, 0, 0, 0)
         const end = data.endDate
