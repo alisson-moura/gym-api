@@ -60,7 +60,7 @@ export class PrismaAppointmentRepository implements AppoitmentRepository {
             const endDay = new Date(date)
             endDay.setHours(23, 59, 59, 0)
 
-            const count = await prisma.appointment.count({
+            const count = await tx.appointment.count({
                 where: {
                     hour: hour,
                     status: 'Pendente',
@@ -75,7 +75,7 @@ export class PrismaAppointmentRepository implements AppoitmentRepository {
                 throw new Error('Horário não está disponível')
             }
 
-            const appointment = await prisma.appointment.create({
+            const appointment = await tx.appointment.create({
                 data: {
                     date: date,
                     clientId: clientId,
