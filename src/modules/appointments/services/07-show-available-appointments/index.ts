@@ -4,6 +4,7 @@ import { Schedule } from "../../../../models/schedule"
 import { AppError } from "../../../../providers/AppError"
 import { DateProvider } from "../../../../providers/Date"
 import { UseCase } from "../../../../providers/UseCase"
+import { ScheduleRepository } from "../../../../data/schedule-repository"
 
 type Response = number[] | AppError
 type Request = { date: Date }
@@ -12,7 +13,8 @@ export class ShowAvailableAppointments implements UseCase<Request, Response> {
 
     constructor(
         private appointmentRepository: AppoitmentRepository,
-        private dateProvider: DateProvider
+        private dateProvider: DateProvider,
+        private scheduleRepository: ScheduleRepository
     ) { }
 
     async execute(request: Request): Promise<Response> {
@@ -20,6 +22,7 @@ export class ShowAvailableAppointments implements UseCase<Request, Response> {
         const day = new Date()
         day.setHours(0, 0, 0, 0)
 
+    
         if (this.dateProvider.isBefore(date, day)) {
             return new AppError('Data fornecida é inválida.')
         }
@@ -27,6 +30,12 @@ export class ShowAvailableAppointments implements UseCase<Request, Response> {
         // academia em reforma nesse dia, remover  após 1 de agosto
         if(this.dateProvider.sameDay(date, this.dateProvider.setDate({day: 27, month: 6, year: 2023}))) {
             return new AppError('Data fornecida é inválida.')
+        }
+
+        // verifica se a data está bloqueada para agendamentos
+        const dateIsAvailable = await this.scheduleRepository.findByDate(date)
+        if(dateIsAvailable != null && dateIsAvailable.status === 'blocked') {
+            return []
         }
 
         const schedule = new Schedule()

@@ -26,6 +26,8 @@ import registerPayment from './controllers/admin/payments/register-payment'
 import listPayments from './controllers/admin/payments/list-payments'
 import paymentReport from './controllers/admin/payments/payment-report'
 import appointmentsReport from './controllers/admin/appointments-report'
+import blockADate from './controllers/admin/block-a-date'
+import dateStatus from './controllers/admin/date-status'
 
 const adminRouter = Router()
 
@@ -114,6 +116,13 @@ adminRouter.get('/payments', auth,
     async (req, res) => listPayments.execute(req, res))
 adminRouter.get('/payments/reports', auth,
     async (req, res) => paymentReport.execute(req, res))
+
+
+/**
+ * Rotas de agenda
+ */
+adminRouter.post('/schedule', auth, validator('BlockDateSchema'), async (req, res) => blockADate.execute(req, res))
+adminRouter.get('/schedule', auth, async (req, res) => dateStatus.execute(req, res))
 
 
 export default adminRouter

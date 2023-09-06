@@ -5,6 +5,7 @@ import { PrismaAppointmentRepository } from "../../../database/appoitments-repos
 import { makeMonthPaymentService } from "../../../factories/month-payment";
 import { DateFnsProvider } from "../../../providers/DateFnsProvider";
 import { BaseController } from "../base-controller";
+import { PrismaScheduleRepository } from "../../../database/schedule-repository";
 
 class ShowAvailableAppointmentsController extends BaseController {
     protected async executeImpl(req: Request, res: Response): Promise<any> {
@@ -16,7 +17,7 @@ class ShowAvailableAppointmentsController extends BaseController {
             return this.clientError(res, hasPayment.message)
         }
 
-        const service = new ShowAvailableAppointments(new PrismaAppointmentRepository(), new DateFnsProvider())
+        const service = new ShowAvailableAppointments(new PrismaAppointmentRepository(), new DateFnsProvider(), new PrismaScheduleRepository())
         const result = await service.execute(data)
         if (result instanceof AppError)
             return this.clientError(res, result.message)

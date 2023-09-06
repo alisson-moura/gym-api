@@ -1,3 +1,4 @@
+import { BlockDateSchema } from "./block-a-date";
 import { CancelAppointmentSchema } from "./cancel-appointment";
 import { ConfirmAppointmentSchema } from "./confirm-appointments";
 import { CreateAccountSchema } from "./create-account";
@@ -29,7 +30,8 @@ const Schemas:any = {
     CreateNotificationSchema,
     UpdateClientSchema,
     RegisterPaymentSchema,
-    ListPaymentstSchema
+    ListPaymentstSchema,
+    BlockDateSchema
 }
 
 export default Schemas

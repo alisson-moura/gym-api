@@ -136,3 +136,9 @@ model Payments {
 
   client Client @relation(fields: [clientId], references: [id])
 }
+
+model Schedule {
+  date DateTime @unique
+  status String
+  description String @default("")
+}
