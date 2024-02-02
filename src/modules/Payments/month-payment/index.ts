@@ -53,10 +53,10 @@ export class MonthPaymentService implements UseCase<Request, Response> {
         const payment = await this.paymentRepository.findPayment({ clientId, month: date })
         if (payment == null) {
             if (isBeforePayday) {
-                // Válido para o mês de fevereiro de 2023 - TODO: remover logo após o mês terminar
+               /*  // Válido para o mês de fevereiro de 2023 - TODO: remover logo após o mês terminar
                 if (date.getMonth() == 1) {
                     return { payment: null }
-                }
+                } */
 
                 const prevPayment = await this.paymentRepository.findPayment({ clientId, month: prevDate })
                 if (prevPayment) {
