@@ -64,6 +64,8 @@ pipeline {
                   npm install
                   npx prisma migrate deploy
                   npm run build
+                  pm2 delete gym-api 2> /dev/null
+                  pm2 start build/index.js --name gym-api
                 ''',
                 sourceFiles: ''
               )
