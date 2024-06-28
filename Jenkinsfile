@@ -13,6 +13,7 @@ pipeline {
     stage('Build') {
       steps {
         sh 'npm install'
+        sh 'npx prisma migrate dev --create-only'
         sh 'npm run build'
       }
     }
@@ -61,6 +62,7 @@ pipeline {
                 execCommand: '''
                   cd ~/apps/gym-api
                   npm install
+                  npx prisma migrate deploy
                   npm run build
                 ''',
                 sourceFiles: ''
