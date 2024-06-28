@@ -8,13 +8,12 @@ pipeline {
   environment {
     HOME = "${env.WORKSPACE}"
     NPM_CONFIG_CACHE = "${env.WORKSPACE}/.npm"
-    DATABASE_URL = 'postgresql://postgres:123456@localhost:5432/gym?schema=public'
   }
   stages {
     stage('Build') {
       steps {
         sh 'npm install'
-        sh 'npx prisma migrate dev --create-only'
+        sh 'npx prisma generate'
         sh 'npm run build'
       }
     }
