@@ -51,6 +51,7 @@ pipeline {
       }
     }
     stage('Start') {
+      agent { label 'jenkins-host' }
       steps {
         sshPublisher(publishers: [
           sshPublisherDesc(
