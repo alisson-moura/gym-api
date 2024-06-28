@@ -7,7 +7,7 @@ pipeline {
   }
   environment {
     HOME = "${env.WORKSPACE}"
-    NPM_CONFIG_CACHE = "${env.WORKSPACE}/.npm",
+    NPM_CONFIG_CACHE = "${env.WORKSPACE}/.npm"
     DATABASE_URL = 'postgresql://postgres:123456@localhost:5432/gym?schema=public'
   }
   stages {
